@@ -1,31 +1,26 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import MainLayout from "@/core/layouts/main-layout";
+import { usePostHog } from "posthog-react-native";
+import { Pressable, Text } from "react-native";
 
 export default function TabOneScreen() {
+  const posthog = usePostHog();
+
+  const handlePress = () => {
+    posthog.capture("button_pressed", {
+      button_name: "signup",
+    });
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <MainLayout>
+      <Text className="text-red-500">Tab One</Text>
+
+      <Pressable
+        onPress={handlePress}
+        className="mt-4 bg-blue-500 px-4 py-2 rounded"
+      >
+        <Text className="text-blue-500">Press me</Text>
+      </Pressable>
+    </MainLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
