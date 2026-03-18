@@ -13,13 +13,10 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Escuchar cambios de auth (login, logout, token refresh)
     const unsubscribe = onAuthStateChanged((firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
     });
-
-    // Limpiar suscripción al desmontar
     return unsubscribe;
   }, []);
 

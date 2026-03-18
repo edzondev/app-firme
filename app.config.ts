@@ -51,7 +51,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "@react-native-firebase/app",
     "@react-native-firebase/auth",
     "expo-router",
-    "expo-image",
+    "expo-secure-store",
     [
       "expo-location",
       {
@@ -72,13 +72,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         url: "https://sentry.io/",
         project: "app-firme",
         organization: "edzonperez",
-      },
-    ],
-    [
-      "expo-image-picker",
-      {
-        photosPermission:
-          "The app accesses your photos to let you share them with your friends.",
       },
     ],
     [
