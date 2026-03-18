@@ -1,4 +1,4 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 //import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 // Configurar Google Sign-In (hacer una sola vez al iniciar la app)
@@ -14,7 +14,10 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
  * Registrar con email y contraseña
  */
 export async function registerWithEmail(email: string, password: string) {
-  const credential = await auth().createUserWithEmailAndPassword(email, password);
+  const credential = await auth().createUserWithEmailAndPassword(
+    email,
+    password,
+  );
   return credential.user;
 }
 

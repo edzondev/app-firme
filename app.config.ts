@@ -1,4 +1,4 @@
-import type { ExpoConfig, ConfigContext } from "expo/config";
+import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -50,6 +50,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     "@react-native-firebase/app",
     "@react-native-firebase/auth",
+    "@rnmapbox/maps",
     "expo-router",
     "expo-secure-store",
     [

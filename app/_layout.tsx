@@ -44,7 +44,7 @@ export const unstable_settings = {
 
 const AppLayout = Sentry.wrap(function AppLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );

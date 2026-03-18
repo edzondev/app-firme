@@ -1,6 +1,30 @@
 import type { PropsWithChildren } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  type Edge,
+  type SafeAreaViewProps,
+  SafeAreaView,
+} from "react-native-safe-area-context";
+import { cn } from "../lib/utils";
 
-export default function MainLayout({ children }: PropsWithChildren) {
-  return <SafeAreaView className="flex-1">{children}</SafeAreaView>;
+type Props = PropsWithChildren<
+  SafeAreaViewProps & {
+    edges?: Edge[];
+  }
+>;
+
+export default function MainLayout({
+  children,
+  edges,
+  className,
+  ...props
+}: Props) {
+  return (
+    <SafeAreaView
+      className={cn("flex-1 bg-background", className)}
+      edges={edges}
+      {...props}
+    >
+      {children}
+    </SafeAreaView>
+  );
 }

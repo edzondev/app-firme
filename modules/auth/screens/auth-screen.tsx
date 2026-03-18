@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react-native";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -8,24 +11,21 @@ import {
   Text,
   TextInput,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff } from 'lucide-react-native';
+} from "react-native";
 
-import { useAuth } from '../hooks/use-auth';
+import MainLayout from "@/core/layouts/main-layout";
+import { useAuth } from "../hooks/use-auth";
 import {
   loginSchema,
   registerSchema,
   type LoginFormData,
   type RegisterFormData,
-} from '../schemas/auth.schema';
+} from "../schemas/auth.schema";
 
-type AuthTab = 'login' | 'register';
+type AuthTab = "login" | "register";
 
 export default function AuthScreen() {
-  const [tab, setTab] = useState<AuthTab>('login');
+  const [tab, setTab] = useState<AuthTab>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,15 +35,15 @@ export default function AuthScreen() {
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: "", password: "" },
   });
 
   const registerForm = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { email: '', password: '', confirmPassword: '' },
+    defaultValues: { email: "", password: "", confirmPassword: "" },
   });
 
-  const isLogin = tab === 'login';
+  const isLogin = tab === "login";
 
   const handleTabChange = (newTab: AuthTab) => {
     setTab(newTab);
@@ -56,9 +56,10 @@ export default function AuthScreen() {
       setAuthError(null);
       await loginWithEmail(data.email, data.password);
     } catch (e: any) {
-      const msg = e?.code === 'auth/invalid-credential'
-        ? 'Correo o contraseña incorrectos'
-        : e?.message ?? 'Error al iniciar sesión';
+      const msg =
+        e?.code === "auth/invalid-credential"
+          ? "Correo o contraseña incorrectos"
+          : (e?.message ?? "Error al iniciar sesión");
       setAuthError(msg);
     } finally {
       setIsLoading(false);
@@ -71,9 +72,10 @@ export default function AuthScreen() {
       setAuthError(null);
       await registerWithEmail(data.email, data.password);
     } catch (e: any) {
-      const msg = e?.code === 'auth/email-already-in-use'
-        ? 'Este correo ya está registrado'
-        : e?.message ?? 'Error al crear la cuenta';
+      const msg =
+        e?.code === "auth/email-already-in-use"
+          ? "Este correo ya está registrado"
+          : (e?.message ?? "Error al crear la cuenta");
       setAuthError(msg);
     } finally {
       setIsLoading(false);
@@ -81,18 +83,17 @@ export default function AuthScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <MainLayout>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           <View className="flex-1 px-6 pt-12 pb-10">
-
             {/* ── Wordmark ── */}
             <View className="mb-10">
               <View className="flex-row items-baseline">
@@ -112,21 +113,25 @@ export default function AuthScreen() {
             {/* ── Tab switcher ── */}
             <View className="flex-row bg-secondary rounded-2xl p-1 mb-8">
               <Pressable
-                onPress={() => handleTabChange('login')}
+                onPress={() => handleTabChange("login")}
                 className={`flex-1 py-3 rounded-xl items-center justify-center ${
-                  isLogin ? 'bg-card' : ''
+                  isLogin ? "bg-card" : ""
                 }`}
-                style={isLogin ? {
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.06,
-                  shadowRadius: 4,
-                  elevation: 2,
-                } : undefined}
+                style={
+                  isLogin
+                    ? {
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.06,
+                        shadowRadius: 4,
+                        elevation: 2,
+                      }
+                    : undefined
+                }
               >
                 <Text
                   className={`text-sm font-semibold ${
-                    isLogin ? 'text-text-primary' : 'text-text-secondary'
+                    isLogin ? "text-text-primary" : "text-text-secondary"
                   }`}
                 >
                   Ingresar
@@ -134,21 +139,25 @@ export default function AuthScreen() {
               </Pressable>
 
               <Pressable
-                onPress={() => handleTabChange('register')}
+                onPress={() => handleTabChange("register")}
                 className={`flex-1 py-3 rounded-xl items-center justify-center ${
-                  !isLogin ? 'bg-card' : ''
+                  !isLogin ? "bg-card" : ""
                 }`}
-                style={!isLogin ? {
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.06,
-                  shadowRadius: 4,
-                  elevation: 2,
-                } : undefined}
+                style={
+                  !isLogin
+                    ? {
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.06,
+                        shadowRadius: 4,
+                        elevation: 2,
+                      }
+                    : undefined
+                }
               >
                 <Text
                   className={`text-sm font-semibold ${
-                    !isLogin ? 'text-text-primary' : 'text-text-secondary'
+                    !isLogin ? "text-text-primary" : "text-text-secondary"
                   }`}
                 >
                   Crear cuenta
@@ -162,18 +171,17 @@ export default function AuthScreen() {
                 className="text-3xl font-bold text-text-primary"
                 style={{ letterSpacing: -0.5, lineHeight: 36 }}
               >
-                {isLogin ? 'Bienvenido\nde vuelta' : 'Crea tu\ncuenta'}
+                {isLogin ? "Bienvenido\nde vuelta" : "Crea tu\ncuenta"}
               </Text>
               <Text className="mt-2.5 text-sm text-text-secondary leading-5">
                 {isLogin
-                  ? 'Ingresa tus datos para continuar'
-                  : 'Completa el formulario para comenzar'}
+                  ? "Ingresa tus datos para continuar"
+                  : "Completa el formulario para comenzar"}
               </Text>
             </View>
 
             {/* ── Fields ── */}
             <View className="gap-y-5">
-
               {isLogin ? (
                 <>
                   {/* Email — Login */}
@@ -184,11 +192,14 @@ export default function AuthScreen() {
                     <Controller
                       control={loginForm.control}
                       name="email"
-                      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                      render={({
+                        field: { onChange, onBlur, value },
+                        fieldState: { error },
+                      }) => (
                         <>
                           <View
                             className={`flex-row items-center bg-card rounded-xl px-4 h-14 border ${
-                              error ? 'border-destructive' : 'border-border'
+                              error ? "border-destructive" : "border-border"
                             }`}
                           >
                             <TextInput
@@ -221,11 +232,14 @@ export default function AuthScreen() {
                     <Controller
                       control={loginForm.control}
                       name="password"
-                      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                      render={({
+                        field: { onChange, onBlur, value },
+                        fieldState: { error },
+                      }) => (
                         <>
                           <View
                             className={`flex-row items-center bg-card rounded-xl px-4 h-14 border ${
-                              error ? 'border-destructive' : 'border-border'
+                              error ? "border-destructive" : "border-border"
                             }`}
                           >
                             <TextInput
@@ -241,10 +255,19 @@ export default function AuthScreen() {
                               onPress={() => setShowPassword((v) => !v)}
                               hitSlop={8}
                             >
-                              {showPassword
-                                ? <EyeOff size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                                : <Eye size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                              }
+                              {showPassword ? (
+                                <EyeOff
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              ) : (
+                                <Eye
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              )}
                             </Pressable>
                           </View>
                           {error && (
@@ -274,13 +297,14 @@ export default function AuthScreen() {
                       Correo electrónico
                     </Text>
                     <Controller
+                      key="form-register-email"
                       control={registerForm.control}
                       name="email"
-                      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                      render={({ field, fieldState: { error } }) => (
                         <>
                           <View
                             className={`flex-row items-center bg-card rounded-xl px-4 h-14 border ${
-                              error ? 'border-destructive' : 'border-border'
+                              error ? "border-destructive" : "border-border"
                             }`}
                           >
                             <TextInput
@@ -290,9 +314,10 @@ export default function AuthScreen() {
                               keyboardType="email-address"
                               autoCapitalize="none"
                               autoCorrect={false}
-                              onChangeText={onChange}
-                              onBlur={onBlur}
-                              value={value}
+                              {...field}
+                              value={field.value}
+                              onChangeText={field.onChange}
+                              onBlur={field.onBlur}
                             />
                           </View>
                           {error && (
@@ -311,13 +336,17 @@ export default function AuthScreen() {
                       Contraseña
                     </Text>
                     <Controller
+                      key="form-register-password"
                       control={registerForm.control}
                       name="password"
-                      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                      render={({
+                        field: { onChange, onBlur, value },
+                        fieldState: { error },
+                      }) => (
                         <>
                           <View
                             className={`flex-row items-center bg-card rounded-xl px-4 h-14 border ${
-                              error ? 'border-destructive' : 'border-border'
+                              error ? "border-destructive" : "border-border"
                             }`}
                           >
                             <TextInput
@@ -333,10 +362,19 @@ export default function AuthScreen() {
                               onPress={() => setShowPassword((v) => !v)}
                               hitSlop={8}
                             >
-                              {showPassword
-                                ? <EyeOff size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                                : <Eye size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                              }
+                              {showPassword ? (
+                                <EyeOff
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              ) : (
+                                <Eye
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              )}
                             </Pressable>
                           </View>
                           {error && (
@@ -355,13 +393,17 @@ export default function AuthScreen() {
                       Confirmar contraseña
                     </Text>
                     <Controller
+                      key="form-register-confirmPassword"
                       control={registerForm.control}
                       name="confirmPassword"
-                      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                      render={({
+                        field: { onChange, onBlur, value },
+                        fieldState: { error },
+                      }) => (
                         <>
                           <View
                             className={`flex-row items-center bg-card rounded-xl px-4 h-14 border ${
-                              error ? 'border-destructive' : 'border-border'
+                              error ? "border-destructive" : "border-border"
                             }`}
                           >
                             <TextInput
@@ -377,10 +419,19 @@ export default function AuthScreen() {
                               onPress={() => setShowConfirmPassword((v) => !v)}
                               hitSlop={8}
                             >
-                              {showConfirmPassword
-                                ? <EyeOff size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                                : <Eye size={18} color="hsl(0, 0%, 55%)" strokeWidth={1.8} />
-                              }
+                              {showConfirmPassword ? (
+                                <EyeOff
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              ) : (
+                                <Eye
+                                  size={18}
+                                  color="hsl(0, 0%, 55%)"
+                                  strokeWidth={1.8}
+                                />
+                              )}
                             </Pressable>
                           </View>
                           {error && (
@@ -399,9 +450,11 @@ export default function AuthScreen() {
               {authError && (
                 <View
                   className="rounded-xl px-4 py-3.5 border border-destructive/20"
-                  style={{ backgroundColor: 'hsl(15, 68%, 97%)' }}
+                  style={{ backgroundColor: "hsl(15, 68%, 97%)" }}
                 >
-                  <Text className="text-sm text-destructive leading-5">{authError}</Text>
+                  <Text className="text-sm text-destructive leading-5">
+                    {authError}
+                  </Text>
                 </View>
               )}
 
@@ -413,15 +466,13 @@ export default function AuthScreen() {
                     : registerForm.handleSubmit(onSubmitRegister)
                 }
                 disabled={isLoading}
-                className="mt-1"
+                className="mt-1 bg-primary h-14 rounded-2xl text-center w-full items-center justify-center"
                 style={({ pressed }) => ({
                   opacity: isLoading ? 0.65 : pressed ? 0.88 : 1,
-                  backgroundColor: 'hsl(164.84, 76%, 24.51%)',
                   height: 56,
                   borderRadius: 16,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  shadowColor: 'hsl(164.84, 76%, 24.51%)',
+                  alignItems: "center",
+                  justifyContent: "center",
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
@@ -431,19 +482,11 @@ export default function AuthScreen() {
                 {isLoading ? (
                   <ActivityIndicator color="white" />
                 ) : (
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 15,
-                      fontWeight: '600',
-                      letterSpacing: 0.3,
-                    }}
-                  >
-                    {isLogin ? 'Ingresar' : 'Crear cuenta'}
+                  <Text className="text-white text-base font-semibold tracking-wider">
+                    {isLogin ? "Ingresar" : "Crear cuenta"}
                   </Text>
                 )}
               </Pressable>
-
             </View>
 
             {/* ── Separator ── */}
@@ -466,18 +509,21 @@ export default function AuthScreen() {
             </Pressable>
 
             {/* ── Footer ── */}
-            <View className="mt-auto pt-8 items-center">
+            <View className="mt-5 pt-8 items-center">
               <Text className="text-xs text-text-secondary text-center leading-5">
-                Al continuar aceptas los{' '}
-                <Text className="text-accent font-medium">términos de servicio</Text>
-                {' '}y la{' '}
-                <Text className="text-accent font-medium">política de privacidad</Text>
+                Al continuar aceptas los{" "}
+                <Text className="text-accent font-medium">
+                  términos de servicio
+                </Text>{" "}
+                y la{" "}
+                <Text className="text-accent font-medium">
+                  política de privacidad
+                </Text>
               </Text>
             </View>
-
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </MainLayout>
   );
 }
