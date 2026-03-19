@@ -31,7 +31,12 @@ export default function AuthScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const { loginWithEmail, registerWithEmail } = useAuth();
+  const {
+    loginWithEmail,
+    registerWithEmail,
+    registerInDatabase,
+    fetchMetadata,
+  } = useAuth();
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -70,7 +75,10 @@ export default function AuthScreen() {
     try {
       setIsLoading(true);
       setAuthError(null);
-      await registerWithEmail(data.email, data.password);
+      const result = await registerWithEmail(data.email, data.password);
+      console.log("Registro exitoso:", result);
+
+      await registerInDatabase(result);
     } catch (e: any) {
       const msg =
         e?.code === "auth/email-already-in-use"
@@ -94,6 +102,13 @@ export default function AuthScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View className="flex-1 px-6 pt-12 pb-10">
+            <Pressable
+              className="mb-6 px-4 py-2 bg-green-700 rounded-lg w-fit"
+              onPress={() => fetchMetadata()}
+            >
+              <Text>Ir a inicio</Text>
+            </Pressable>
+
             {/* ── Wordmark ── */}
             <View className="mb-10">
               <View className="flex-row items-baseline">

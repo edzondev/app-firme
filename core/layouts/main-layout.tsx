@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react";
+import { View } from "react-native";
 import {
   type Edge,
   type SafeAreaViewProps,
@@ -20,11 +21,11 @@ export default function MainLayout({
 }: Props) {
   return (
     <SafeAreaView
-      className={cn("flex-1 bg-background", className)}
+      className={cn("flex-1 bg bg-background", className)}
       edges={edges}
       {...props}
     >
-      {children}
+      <View className="flex-1">{children}</View>
     </SafeAreaView>
   );
 }
