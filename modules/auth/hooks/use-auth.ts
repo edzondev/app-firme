@@ -1,24 +1,49 @@
-import { apiFetch } from "@/core/services/shared/api";
+import { setCachedProfile } from "@/core/storage/helpers";
 import {
-  FirebaseAuthTypes,
+  type FirebaseAuthTypes,
   getAuth,
   onAuthStateChanged,
 } from "@react-native-firebase/auth";
 import { useEffect, useState } from "react";
 import {
-  getIdToken,
+  getUserIdToken,
   loginWithEmail,
   registerWithEmail,
-  signOut,
+  signOutUser,
 } from "../services/auth";
+import { useProfile } from "./use-profile";
+import { useRegisterUser } from "./use-register-user";
 
 export function useAuth() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  function handleAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    setUser(user);
+  const registerMutation = useRegisterUser();
+  const profileQuery = useProfile();
+
+  async function handleAuthStateChanged(
+    firebaseUser: FirebaseAuthTypes.User | null,
+  ) {
+    setUser(firebaseUser);
+
+    if (firebaseUser) {
+      // Sync con backend (solo si no existe aún)
+      if (!profileQuery.data && !profileQuery.isFetching) {
+        const backendUser = await registerMutation.mutateAsync({
+          fullName: firebaseUser.displayName || "User",
+          phone: firebaseUser.phoneNumber || "",
+        });
+
+        setCachedProfile({
+          id: backendUser.id,
+          fullName: backendUser.fullName,
+          email: backendUser.email,
+          phone: backendUser.phone,
+          avatarUrl: backendUser.avatarUrl,
+        });
+      }
+    }
+
     if (initializing) setInitializing(false);
   }
 
@@ -27,40 +52,15 @@ export function useAuth() {
     return unsubscribe;
   }, []);
 
-  const registerInDatabase = async (user: FirebaseAuthTypes.User) => {
-    // Aquí puedes agregar la lógica para registrar el usuario en tu base de datos
-
-    const data = {
-      firebaseUid: user.uid,
-      email: user.email,
-      fullName: user.displayName || "User",
-      phone: user.phoneNumber || "",
-    };
-
-    await apiFetch("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  };
-
-  const fetchMetadata = async () => {
-    const result = await apiFetch("/auth/me", {
-      method: "GET",
-    });
-
-    console.log("User metadata:", result);
-    return result;
-  };
-
   return {
     user,
-    loading,
+    initializing,
     isAuthenticated: !!user,
+    profile: profileQuery.data,
+    profileLoading: profileQuery.isLoading,
     loginWithEmail,
     registerWithEmail,
-    signOut,
-    getIdToken,
-    registerInDatabase,
-    fetchMetadata,
+    signOutUser,
+    getUserIdToken,
   };
 }
