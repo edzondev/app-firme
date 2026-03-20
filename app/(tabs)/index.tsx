@@ -1,6 +1,5 @@
 import TravelCard from "@/core/components/shared/travel-card";
 import MainLayout from "@/core/layouts/main-layout";
-import { useNavigation } from "expo-router";
 import { Plus, Shield } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 
@@ -34,11 +33,7 @@ const contacts = [
   { name: "Ana", initials: "AL", color: "#BA7517" },
 ];
 
-const appColors = { Uber: "#000", inDrive: "#2BC44F", DiDi: "#FF7A28" };
-
 export default function Home() {
-  const navigate = useNavigation();
-
   return (
     <MainLayout edges={["top", "bottom"]}>
       {/* Header */}
