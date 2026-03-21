@@ -1,4 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "@react-native-firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -14,7 +19,6 @@ import {
 } from "react-native";
 
 import MainLayout from "@/core/layouts/main-layout";
-import { useAuth } from "../hooks/use-auth";
 import {
   loginSchema,
   registerSchema,
@@ -30,8 +34,6 @@ export default function AuthScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-
-  const { loginWithEmail, registerWithEmail } = useAuth();
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -54,7 +56,7 @@ export default function AuthScreen() {
     try {
       setIsLoading(true);
       setAuthError(null);
-      await loginWithEmail(data.email, data.password);
+      await signInWithEmailAndPassword(getAuth(), data.email, data.password);
     } catch (e: any) {
       const msg =
         e?.code === "auth/invalid-credential"
@@ -70,8 +72,7 @@ export default function AuthScreen() {
     try {
       setIsLoading(true);
       setAuthError(null);
-      const result = await registerWithEmail(data.email, data.password);
-      console.log("Registro exitoso:", result);
+      await createUserWithEmailAndPassword(getAuth(), data.email, data.password);
     } catch (e: any) {
       const msg =
         e?.code === "auth/email-already-in-use"

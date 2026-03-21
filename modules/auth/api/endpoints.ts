@@ -7,12 +7,6 @@ export type RegisterUserInput = {
 
 export type Profile = {
   id: string;
-  fullName: string;
-  email: string;
-};
-
-export type Response = {
-  id: string;
   firebaseUid: string;
   fullName: string;
   email: string | null;
@@ -21,7 +15,7 @@ export type Response = {
 };
 
 export function registerUserInBackend(data: RegisterUserInput) {
-  return apiFetch<Response>("/auth/register", {
+  return apiFetch<Profile>("/auth/register", {
     method: "POST",
     body: JSON.stringify(data),
   });

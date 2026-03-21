@@ -3,7 +3,6 @@
  */
 export const StorageKeys = {
   // Auth & user cache
-  USER_PROFILE: "user_profile", // JSON: { id, name, email, phone, avatarUrl }
   IS_PREMIUM: "is_premium", // boolean
   SUBSCRIPTION_EXPIRES: "sub_expires", // string (ISO date)
 

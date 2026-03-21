@@ -1,13 +1,12 @@
 import QueryProvider from "@/core/components/providers/query-provider";
-import { initStorage } from "@/core/storage/init";
+import StorageProvider from "@/core/components/providers/storage-provider";
 import { useAuth } from "@/modules/auth/hooks/use-auth";
 import * as Sentry from "@sentry/react-native";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { PostHogProvider } from "posthog-react-native";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import "react-native-reanimated";
 import {
   initialWindowMetrics,
@@ -43,30 +42,23 @@ export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
+
 SplashScreen.preventAutoHideAsync();
 
 SplashScreen.setOptions({
   duration: 1000,
-  fade: true,
-});
+  fade: true
+})
+
 
 function AppNavigation() {
   const { isAuthenticated, initializing } = useAuth();
-
-  useEffect(() => {
-    if (!initializing) {
-      SplashScreen.hideAsync();
-    }
-  }, [initializing]);
-
   if (initializing) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0F6E56" />
-      </View>
-    );
+    return null;
   }
-
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)" />;
+  }
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!isAuthenticated}>
@@ -80,20 +72,6 @@ function AppNavigation() {
 }
 
 const AppLayout = Sentry.wrap(function AppLayout() {
-  const [storageReady, setStorageReady] = useState(false);
-
-  useEffect(() => {
-    initStorage().then(() => setStorageReady(true));
-  }, []);
-
-  if (!storageReady) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0F6E56" />
-      </View>
-    );
-  }
-
   return <AppNavigation />;
 });
 
@@ -104,12 +82,14 @@ export default function RootLayout() {
         apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY!}
         options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
       >
-        <QueryProvider>
-          <View style={{ flex: 1 }}>
-            <AppLayout />
-          </View>
-          <StatusBar style="dark" />
-        </QueryProvider>
+        <StorageProvider>
+          <QueryProvider>
+            <View style={{ flex: 1 }}>
+              <AppLayout />
+            </View>
+            <StatusBar style="dark" />
+          </QueryProvider>
+        </StorageProvider>
       </PostHogProvider>
     </SafeAreaProvider>
   );

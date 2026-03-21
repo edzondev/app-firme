@@ -1,8 +1,11 @@
 import TravelCard from "@/core/components/shared/travel-card";
 import MainLayout from "@/core/layouts/main-layout";
-import { getCachedProfile } from "@/core/storage/helpers";
+import { useUserStore } from "@/core/stores/user-store";
+import { useProfile } from "@/modules/auth/hooks/use-profile";
+import useApiContacts from "@/modules/contacts/hooks/use-api-contacts";
+import useTrips from "@/modules/trips/hooks/use-trips";
 import { Plus, Shield } from "lucide-react-native";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 
 const recentTrips = [
   {
@@ -35,9 +38,21 @@ const contacts = [
 ];
 
 export default function Home() {
-  const profile = getCachedProfile();
+  const userId = useUserStore((s) => s.id);
+  const { data: profileData, isLoading: isLoadingProfile } = useProfile();
+  const { data: contactsData, isLoading: isLoadingContacts } = useApiContacts();
+  const { data: tripsData, isLoading: isLoadingTrips } = useTrips(userId ?? "");
+  if (isLoadingProfile || isLoadingContacts || isLoadingTrips) {
+    return (
+      <MainLayout edges={["top", "bottom"]}>
+        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }} contentInsetAdjustmentBehavior="automatic" pinchGestureEnabled={false}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </ScrollView>
+      </MainLayout>
+    );
+  }
 
-  console.log("Cached profile:", profile);
+  console.log({ profileData, contactsData, tripsData });
 
   return (
     <MainLayout edges={["top", "bottom"]}>
