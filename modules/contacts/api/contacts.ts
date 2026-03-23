@@ -12,3 +12,16 @@ export async function getContacts() {
     throw error;
   }
 }
+
+export async function addContact(contact: any) {
+  try {
+    const response = await apiFetch("/contacts", {
+      method: "POST",
+      body: JSON.stringify(contact),
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
