@@ -3,9 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getTripsHistory } from "../api/trips";
 
 export default function useTrips(userId: string) {
-
     return useQuery({
         queryKey: queryKeys.tripsHistory,
         queryFn: () => getTripsHistory(userId),
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 }

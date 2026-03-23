@@ -28,14 +28,11 @@ export const useUserStore = create<UserProfileStore>()(
     }),
     {
       name: "user-profile",
-      storage: createJSONStorage(() => {
-        const mmkv = getStorage();
-        return {
-          getItem: (key) => mmkv.getString(key) ?? null,
-          setItem: (key, value) => mmkv.set(key, value),
-          removeItem: (key) => mmkv.delete(key),
-        };
-      }),
+      storage: createJSONStorage(() => ({
+        getItem: (key) => getStorage()?.getString(key) ?? null,
+        setItem: (key, value) => getStorage()?.set(key, value),
+        removeItem: (key) => getStorage()?.remove(key),
+      })),
     },
   ),
 );

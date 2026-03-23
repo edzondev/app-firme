@@ -1,6 +1,7 @@
 import TravelCard from "@/core/components/shared/travel-card";
 import MainLayout from "@/core/layouts/main-layout";
 import { useUserStore } from "@/core/stores/user-store";
+import { capitalizeApp, formatDuration, formatTripDate, formatTripTime, mapTripStatus } from "@/core/utils/trip";
 import { useProfile } from "@/modules/auth/hooks/use-profile";
 import useApiContacts from "@/modules/contacts/hooks/use-api-contacts";
 import useTrips from "@/modules/trips/hooks/use-trips";
@@ -42,17 +43,16 @@ export default function Home() {
   const { data: profileData, isLoading: isLoadingProfile } = useProfile();
   const { data: contactsData, isLoading: isLoadingContacts } = useApiContacts();
   const { data: tripsData, isLoading: isLoadingTrips } = useTrips(userId ?? "");
-  if (isLoadingProfile || isLoadingContacts || isLoadingTrips) {
+
+  if (isLoadingTrips) {
     return (
       <MainLayout edges={["top", "bottom"]}>
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }} contentInsetAdjustmentBehavior="automatic" pinchGestureEnabled={false}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </ScrollView>
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" />
+        </View>
       </MainLayout>
     );
   }
-
-  console.log({ profileData, contactsData, tripsData });
 
   return (
     <MainLayout edges={["top", "bottom"]}>
@@ -143,14 +143,14 @@ export default function Home() {
             </View>
 
             <View className="flex flex-col gap-4">
-              {recentTrips.map((trip, i) => (
+              {tripsData?.trips.map((trip) => (
                 <TravelCard
-                  key={i}
-                  date={trip.date}
-                  status={trip.status}
-                  time={trip.time}
-                  app={trip.app}
-                  duration={trip.duration}
+                  key={trip.id}
+                  date={formatTripDate(trip.startedAt)}
+                  time={formatTripTime(trip.startedAt)}
+                  status={mapTripStatus(trip.status)}
+                  app={capitalizeApp(trip.externalApp)}
+                  duration={formatDuration(trip.durationSeconds, trip.startedAt, trip.endedAt)}
                 />
               ))}
             </View>

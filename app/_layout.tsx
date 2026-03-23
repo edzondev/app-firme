@@ -2,11 +2,10 @@ import QueryProvider from "@/core/components/providers/query-provider";
 import StorageProvider from "@/core/components/providers/storage-provider";
 import { useAuth } from "@/modules/auth/hooks/use-auth";
 import * as Sentry from "@sentry/react-native";
-import { Redirect, Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { PostHogProvider } from "posthog-react-native";
-import { View } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import "react-native-reanimated";
 import {
   initialWindowMetrics,
@@ -43,22 +42,12 @@ export const unstable_settings = {
 };
 
 
-SplashScreen.preventAutoHideAsync();
-
-SplashScreen.setOptions({
-  duration: 1000,
-  fade: true
-})
-
-
 function AppNavigation() {
   const { isAuthenticated, initializing } = useAuth();
   if (initializing) {
     return null;
   }
-  if (!isAuthenticated) {
-    return <Redirect href="/(auth)" />;
-  }
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!isAuthenticated}>
@@ -78,19 +67,19 @@ const AppLayout = Sentry.wrap(function AppLayout() {
 export default function RootLayout() {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <PostHogProvider
-        apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY!}
-        options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
-      >
-        <StorageProvider>
-          <QueryProvider>
-            <View style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <PostHogProvider
+          apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY!}
+          options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
+        >
+          <StorageProvider>
+            <QueryProvider>
               <AppLayout />
-            </View>
-            <StatusBar style="dark" />
-          </QueryProvider>
-        </StorageProvider>
-      </PostHogProvider>
+              <StatusBar style="dark" />
+            </QueryProvider>
+          </StorageProvider>
+        </PostHogProvider>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
