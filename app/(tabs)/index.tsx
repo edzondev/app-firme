@@ -1,50 +1,32 @@
 import TravelCard from "@/core/components/shared/travel-card";
 import MainLayout from "@/core/layouts/main-layout";
 import { useUserStore } from "@/core/stores/user-store";
-import { capitalizeApp, formatDuration, formatTripDate, formatTripTime, mapTripStatus } from "@/core/utils/trip";
+import {
+  capitalizeApp,
+  formatDuration,
+  formatTripDate,
+  formatTripTime,
+  mapTripStatus,
+} from "@/core/utils/trip";
 import { useProfile } from "@/modules/auth/hooks/use-profile";
 import useApiContacts from "@/modules/contacts/hooks/use-api-contacts";
 import useTrips from "@/modules/trips/hooks/use-trips";
 import { Plus, Shield } from "lucide-react-native";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
-
-const recentTrips = [
-  {
-    date: "14 Mar 2026",
-    time: "19:45",
-    app: "Uber",
-    duration: "28 min",
-    status: "ok",
-  },
-  {
-    date: "13 Mar 2026",
-    time: "08:15",
-    app: "inDrive",
-    duration: "35 min",
-    status: "ok",
-  },
-  {
-    date: "10 Mar 2026",
-    time: "22:10",
-    app: "DiDi",
-    duration: "42 min",
-    status: "sos",
-  },
-];
-
-const contacts = [
-  { name: "Mamá", initials: "MG", color: "#0F6E56" },
-  { name: "Carlos", initials: "CA", color: "#1D9E75" },
-  { name: "Ana", initials: "AL", color: "#BA7517" },
-];
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 export default function Home() {
   const userId = useUserStore((s) => s.id);
-  const { data: profileData, isLoading: isLoadingProfile } = useProfile();
+  const fullName = useUserStore((s) => s.fullName);
   const { data: contactsData, isLoading: isLoadingContacts } = useApiContacts();
   const { data: tripsData, isLoading: isLoadingTrips } = useTrips(userId ?? "");
 
-  if (isLoadingTrips) {
+  if (isLoadingContacts && isLoadingTrips) {
     return (
       <MainLayout edges={["top", "bottom"]}>
         <View className="flex-1 items-center justify-center">
@@ -65,7 +47,7 @@ export default function Home() {
         {/* Header */}
         <View className="flex-row justify-between items-start py-8 px-6">
           <View className="flex-col">
-            <Text className="text-3xl font-semibold">¡Hola, Mariana!</Text>
+            <Text className="text-3xl font-semibold">¡Hola, {fullName}!</Text>
             <Text className="text-text-secondary secondary mt-1">
               ¿A dónde vas hoy?
             </Text>
@@ -110,16 +92,11 @@ export default function Home() {
             </View>
 
             <View className="flex flex-row gap-3 items-start">
-              {contacts.map((c, i) => (
-                <View key={i} className="flex flex-col items-center gap-1">
-                  <View
-                    className="w-14 h-14 rounded-full flex items-center justify-center"
-                    style={{
-                      backgroundColor: c.color,
-                    }}
-                  >
+              {contactsData?.map((c) => (
+                <View key={c.id} className="flex flex-col items-center gap-1">
+                  <View className="w-14 h-14 rounded-full flex items-center justify-center bg-primary">
                     <Text className="text-base font-semibold text-white">
-                      {c.initials}
+                      {c.name.charAt(0).toUpperCase()}
                     </Text>
                   </View>
                   <Text className="text-xs text-text-secondary">{c.name}</Text>
@@ -143,16 +120,22 @@ export default function Home() {
             </View>
 
             <View className="flex flex-col gap-4">
-              {tripsData?.trips.map((trip) => (
-                <TravelCard
-                  key={trip.id}
-                  date={formatTripDate(trip.startedAt)}
-                  time={formatTripTime(trip.startedAt)}
-                  status={mapTripStatus(trip.status)}
-                  app={capitalizeApp(trip.externalApp)}
-                  duration={formatDuration(trip.durationSeconds, trip.startedAt, trip.endedAt)}
-                />
-              ))}
+              {tripsData?.trips
+                .filter((t) => t.status !== "active")
+                .map((trip) => (
+                  <TravelCard
+                    key={trip.id}
+                    date={formatTripDate(trip.startedAt ?? "")}
+                    time={formatTripTime(trip.startedAt ?? "")}
+                    status={mapTripStatus(trip.status)}
+                    app={capitalizeApp(trip.externalApp)}
+                    duration={formatDuration(
+                      trip.durationSeconds,
+                      trip.startedAt ?? "",
+                      trip.endedAt,
+                    )}
+                  />
+                ))}
             </View>
           </View>
         </View>

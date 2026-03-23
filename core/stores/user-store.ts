@@ -1,4 +1,4 @@
-import { getStorage } from "@/core/storage/storage";
+import { zustandStorage } from "@/core/storage/storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -28,11 +28,7 @@ export const useUserStore = create<UserProfileStore>()(
     }),
     {
       name: "user-profile",
-      storage: createJSONStorage(() => ({
-        getItem: (key) => getStorage()?.getString(key) ?? null,
-        setItem: (key, value) => getStorage()?.set(key, value),
-        removeItem: (key) => getStorage()?.remove(key),
-      })),
+      storage: createJSONStorage(() => zustandStorage),
     },
   ),
 );

@@ -1,0 +1,20 @@
+export type TripHistory = {
+  audioEnabled: boolean;
+  createdAt: string;
+  distanceMeters: number;
+  driverName: string;
+  driverPlate: string;
+  durationSeconds: number;
+  endedAt: string;
+  externalApp: string;
+  id: string;
+  locationPointsCount: number;
+  routeDeviationEnabled: boolean;
+  shareEnabled: boolean;
+  shareToken: string;
+  startedAt: string;
+  status: string;
+  userId: string;
+  userRating: number;
+  vehicleColor: string;
+};

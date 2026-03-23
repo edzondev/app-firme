@@ -1,5 +1,4 @@
 import QueryProvider from "@/core/components/providers/query-provider";
-import StorageProvider from "@/core/components/providers/storage-provider";
 import { useAuth } from "@/modules/auth/hooks/use-auth";
 import * as Sentry from "@sentry/react-native";
 import { Stack } from "expo-router";
@@ -72,12 +71,10 @@ export default function RootLayout() {
           apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY!}
           options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
         >
-          <StorageProvider>
-            <QueryProvider>
-              <AppLayout />
-              <StatusBar style="dark" />
-            </QueryProvider>
-          </StorageProvider>
+          <QueryProvider>
+            <AppLayout />
+            <StatusBar style="dark" />
+          </QueryProvider>
         </PostHogProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
