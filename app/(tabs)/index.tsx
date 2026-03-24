@@ -1,3 +1,4 @@
+import BottomSheetComponent from "@/core/components/shared/bottom-sheet";
 import TravelCard from "@/core/components/shared/travel-card";
 import MainLayout from "@/core/layouts/main-layout";
 import { useUserStore } from "@/core/stores/user-store";
@@ -8,8 +9,12 @@ import {
   formatTripTime,
   mapTripStatus,
 } from "@/core/utils/trip";
-import useTrips from "@/modules/trips/hooks/use-trips";
+import { useApiContacts } from "@/modules/contacts/hooks/use-api-contacts";
+import AddContactForm from "@/modules/dashboard/components/add-contact-form";
+import { useTrips } from "@/modules/trips/hooks/use-trips";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { Plus, Shield } from "lucide-react-native";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -17,11 +22,6 @@ import {
   Text,
   View,
 } from "react-native";
-import BottomSheetComponent from "@/core/components/shared/bottom-sheet";
-import { useRef, useState } from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
-import AddContactForm from "@/modules/dashboard/components/add-contact-form";
-import { useApiContacts } from "@/modules/contacts/hooks/use-api-contacts";
 
 export default function Home() {
   const userId = useUserStore((s) => s.id);

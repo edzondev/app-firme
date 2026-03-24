@@ -49,7 +49,7 @@ export const Button = ({
   return (
     <Pressable
       className={cn(
-        "flex-row items-center justify-center rounded-md active:opacity-80",
+        "flex-row h-14 items-center justify-center rounded-md active:opacity-80",
         variantStyles[variant],
         sizeStyles[size],
         disabled && "opacity-50",

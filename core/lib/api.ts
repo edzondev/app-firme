@@ -1,7 +1,10 @@
-import { getAuth, getIdToken as firebaseGetIdToken } from "@react-native-firebase/auth";
+import {
+  getIdToken as firebaseGetIdToken,
+  getAuth,
+} from "@react-native-firebase/auth";
 
 const API_URL = __DEV__
-  ? "http://192.168.68.112:5000/api/v1"
+  ? "http://192.168.0.101:5000/api/v1"
   : "https://tu-dominio-api.com/api/v1";
 
 type ApiErrorResponse = {

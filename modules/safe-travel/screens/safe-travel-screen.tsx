@@ -1,87 +1,113 @@
+import { Button } from "@/core/components/ui/button";
 import MainLayout from "@/core/layouts/main-layout";
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
-import { View, Text } from "react-native";
-import { AppSelectorStep, type AppId } from "../components/app-selector-step";
+import AppSelectorStep from "@/modules/trips/components/form/app-selector-step";
+import { TripConfirmStep } from "@/modules/trips/components/form/trip-confirm-step";
+import TripDataStep from "@/modules/trips/components/form/trip-data-step";
+import useSosForm from "@/modules/trips/hooks/use-sos-form";
+import { FormProvider } from "react-hook-form";
+import { Text, View } from "react-native";
 import { StepIndicator } from "../components/step-indicator";
-import { TripConfirmStep } from "../components/trip-confirm-step";
-import { TripDataStep, type TripData } from "../components/trip-data-step";
 
-const TOTAL_STEPS = 3;
+const STEP_LABELS: Record<
+  number,
+  { title: string; subtitle: string; cta: string }
+> = {
+  1: {
+    title: "¿Qué app estás usando?",
+    subtitle: "Selecciona la app en la que pediste tu taxi",
+    cta: "Continuar",
+  },
+  2: {
+    title: "Datos del viaje",
+    subtitle: "Mientras más info ingreses, más segura estarás.",
+    cta: "Continuar",
+  },
+  3: {
+    title: "Confirma tu viaje",
+    subtitle: "Revisa los datos antes de activar tu protección",
+    cta: "Activar protección",
+  },
+};
 
-const DEFAULT_TRIP_DATA: TripData = {
-  plate: "",
-  driverName: "",
-  vehicleColor: null,
-  audioEnabled: true,
-  locationEnabled: true,
+const STEP_COMPONENTS: Record<number, React.ReactNode> = {
+  1: <AppSelectorStep />,
+  2: <TripDataStep />,
+  3: <TripConfirmStep />,
 };
 
 export function SafeTravelScreen() {
-  const [step, setStep] = useState(1);
-  const [selectedApp, setSelectedApp] = useState<AppId | null>(null);
-  const [tripData, setTripData] = useState<TripData>(DEFAULT_TRIP_DATA);
+  const {
+    isFirstStep,
+    back,
+    currentStep,
+    form,
+    isLastStep,
+    next,
+    totalSteps,
+    handleSubmit,
+  } = useSosForm();
 
-  const goToStep = useCallback((nextStep: number) => {
-    setStep(nextStep);
-  }, []);
-
-  const handleBack = useCallback(() => {
-    if (step > 1) {
-      goToStep(step - 1);
-    } else {
-      if (router.canGoBack()) {
-        router.back();
-      }
-    }
-  }, [step, goToStep]);
+  const meta = STEP_LABELS[currentStep + 1];
 
   return (
     <MainLayout edges={["top", "bottom"]}>
-      {/* Header */}
-      <View className="pt-8 px-6 gap-3">
-        <Text
-          className="text-3xl font-bold text-text-primary"
-          style={{ letterSpacing: -0.3 }}
-        >
-          Iniciar viaje seguro
-        </Text>
-        <Text className="font-semibold text-base text-primary">
-          Paso {step} de {TOTAL_STEPS}
-        </Text>
-        <StepIndicator currentStep={step} totalSteps={TOTAL_STEPS} />
-      </View>
+      <FormProvider {...form}>
+        <View className="flex-1 px-6 pt-8">
+          {/* Header */}
+          <View className="flex-col items-start gap-1">
+            <Text
+              className="text-3xl font-bold text-text-primary"
+              style={{ letterSpacing: -0.3 }}
+            >
+              Iniciar viaje seguro
+            </Text>
+            <Text className="font-semibold text-base text-text-secondary">
+              Paso {currentStep + 1} de {totalSteps}
+            </Text>
+          </View>
+          <StepIndicator
+            currentStep={currentStep + 1}
+            totalSteps={totalSteps}
+            className="my-6"
+          />
 
-      {/* Step content */}
-      <View className="flex-1">
-        {step === 1 && (
-          <AppSelectorStep
-            selected={selectedApp}
-            onSelect={setSelectedApp}
-            onContinue={() => goToStep(2)}
-          />
-        )}
-        {step === 2 && (
-          <TripDataStep
-            data={tripData}
-            onChange={(updates) =>
-              setTripData((prev) => ({ ...prev, ...updates }))
-            }
-            onContinue={() => goToStep(3)}
-            onBack={handleBack}
-          />
-        )}
-        {step === 3 && (
-          <TripConfirmStep
-            selectedApp={selectedApp}
-            data={tripData}
-            onBack={handleBack}
-            onActivate={() => {
-              // TODO: wire activation logic
-            }}
-          />
-        )}
-      </View>
+          <View className="mb-8">
+            <Text
+              className="text-2xl font-bold text-text-primary"
+              style={{ letterSpacing: -0.4 }}
+            >
+              {meta.title}
+            </Text>
+            <Text className="text-base text-text-secondary mt-1.5 leading-5">
+              {meta.subtitle}
+            </Text>
+          </View>
+
+          {/* Form */}
+          {STEP_COMPONENTS[currentStep + 1]}
+
+          <View className="flex-1" />
+
+          <View className="flex-row gap-2">
+            {!isFirstStep && (
+              <Button
+                title="Volver"
+                variant="outline"
+                onPress={back}
+                className="flex-auto"
+              />
+            )}
+
+            {/* Botón principal */}
+            <Button
+              title={meta.cta}
+              variant="primary"
+              onPress={isLastStep ? () => handleSubmit() : next}
+              className="flex-auto"
+            />
+          </View>
+        </View>
+      </FormProvider>
     </MainLayout>
   );
 }

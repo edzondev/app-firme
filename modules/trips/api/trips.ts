@@ -18,3 +18,16 @@ export async function getTripsHistory(userId: string) {
     console.error({ error });
   }
 }
+
+export async function createTrip(tripData: any) {
+  try {
+    const response = await apiFetch<any>(`/trip`, {
+      method: "POST",
+      body: JSON.stringify(tripData),
+    });
+    console.log("Trip created successfully:", response);
+    return response;
+  } catch (error) {
+    console.error({ error });
+  }
+}

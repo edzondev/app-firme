@@ -1,6 +1,6 @@
 import { cn } from "@/core/lib/utils";
 import React, { useMemo } from "react";
-import { View, Text, type ViewProps, type TextProps } from "react-native";
+import { Text, View, type TextProps, type ViewProps } from "react-native";
 
 export function FieldSet({ className, ...props }: ViewProps) {
   return <View className={cn("flex-col gap-4 w-full", className)} {...props} />;
