@@ -72,7 +72,11 @@ export default function AuthScreen() {
     try {
       setIsLoading(true);
       setAuthError(null);
-      await createUserWithEmailAndPassword(getAuth(), data.email, data.password);
+      await createUserWithEmailAndPassword(
+        getAuth(),
+        data.email,
+        data.password,
+      );
     } catch (e: any) {
       const msg =
         e?.code === "auth/email-already-in-use"

@@ -13,7 +13,9 @@ import { useApiContacts } from "@/modules/contacts/hooks/use-api-contacts";
 import AddContactForm from "@/modules/dashboard/components/add-contact-form";
 import { useTrips } from "@/modules/trips/hooks/use-trips";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { Plus, Shield } from "lucide-react-native";
+import { getAuth, signOut } from "@react-native-firebase/auth";
+import { Plus, Shield, LogOut } from "lucide-react-native";
+import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -26,13 +28,25 @@ import {
 export default function Home() {
   const userId = useUserStore((s) => s.id);
   const fullName = useUserStore((s) => s.fullName);
+  const clear = useUserStore((s) => s.clear);
   const { data: contactsData, isLoading: isLoadingContacts } = useApiContacts();
   const { data: tripsData, isLoading: isLoadingTrips } = useTrips(userId ?? "");
+  const router = useRouter();
 
   const [index, setIndex] = useState(-1);
   const snapPoints = ["50%", "85%"];
   const bottomSheetRef = useRef<BottomSheet>(null);
   const onChange = (index: number) => setIndex(index);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(getAuth());
+      clear();
+      router.replace("/(auth)/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   if (isLoadingContacts && isLoadingTrips) {
     return (
@@ -61,9 +75,9 @@ export default function Home() {
                 ¿A dónde vas hoy?
               </Text>
             </View>
-            <View className="bg-primary flex items-center justify-center rounded-full w-11 h-11">
-              <Text className="text-base font-semibold text-white">MG</Text>
-            </View>
+            <Pressable onPress={handleLogout} className="active:opacity-70">
+              <LogOut size={24} strokeWidth={2} color="#10b981" />
+            </Pressable>
           </View>
 
           <View className="py-4 flex-col gap-6 px-6">

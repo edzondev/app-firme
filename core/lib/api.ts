@@ -4,7 +4,7 @@ import {
 } from "@react-native-firebase/auth";
 
 const API_URL = __DEV__
-  ? "http://192.168.0.101:5000/api/v1"
+  ? "http://10.251.232.206:5000/api/v1"
   : "https://tu-dominio-api.com/api/v1";
 
 type ApiErrorResponse = {

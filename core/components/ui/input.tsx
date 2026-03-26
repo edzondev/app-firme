@@ -22,7 +22,7 @@ export const Input = ({
       <TextInput
         ref={ref}
         className={cn(
-          "h-12 px-4 rounded-md border bg-white text-slate-900 text-base",
+          "h-12 px-4 rounded-md border border-border bg-white text-slate-900 text-base",
           error && "border-red-500",
           !editable && "opacity-50 bg-slate-50 text-slate-500",
           className,

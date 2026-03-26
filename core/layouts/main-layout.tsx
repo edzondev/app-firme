@@ -15,7 +15,7 @@ type Props = PropsWithChildren<
 
 export default function MainLayout({
   children,
-  edges,
+  edges = ["top", "bottom"],
   className,
   ...props
 }: Props) {

@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { PostHogProvider } from "posthog-react-native";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import {
   initialWindowMetrics,
@@ -40,12 +40,13 @@ export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
-
 function AppNavigation() {
   const { isAuthenticated, initializing } = useAuth();
   if (initializing) {
     return null;
   }
+
+  console.log({ isAuthenticated });
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
