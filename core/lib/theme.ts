@@ -10,6 +10,7 @@ export const THEME = {
     secondary: "hsl(173 100% 44%)",
     secondaryForeground: "hsl(0 0% 5%)",
     destructive: "hsl(15 68% 52%)",
+    sos: "hsl(15, 64%, 50%)",
     border: "hsl(60 4.17% 90.59%)",
     input: "hsl(60 4.17% 90.59%)",
     ring: "hsl(0 0% 63%)",

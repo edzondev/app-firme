@@ -12,6 +12,7 @@
     --secondary-foreground: 0, 0%, 5%;
     --card: 0 0% 100%;
     --destructive: 15, 68%, 52%;
+    --sos: 15, 64%, 50%;
     --border: 60, 4.17%, 90.59%;
     --input: 60, 4.17%, 90.59%;
     --ring: 0 0% 63%;
@@ -19,5 +20,6 @@
   }
   .dark:root {
     --background: 206, 11%, 12%;
+    --sos: 15, 64%, 50%;
   }
 }

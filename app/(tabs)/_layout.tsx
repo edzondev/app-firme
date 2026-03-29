@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Clock, Home, Shield, User } from "lucide-react-native";
+import { Clock, Home, User } from "lucide-react-native";
 import type { ComponentType } from "react";
 import type { SvgProps } from "react-native-svg";
 
@@ -25,9 +25,7 @@ export default function TabLayout() {
         tabBarStyle: {
           height: insets.bottom + 60,
           paddingTop: 10,
-          //backgroundColor: COLORS.neutral.white,
         },
-        // tabBarActiveTintColor: COLORS.primary.default,
         tabBarInactiveTintColor: "#9ca3af",
         tabBarShowLabel: true,
       }}
@@ -57,21 +55,6 @@ export default function TabLayout() {
               color={color}
               size={size}
               Icon={Clock}
-            />
-          ),
-          animation: "fade",
-        }}
-      />
-      <Tabs.Screen
-        name="sos"
-        options={{
-          title: "SOS",
-          tabBarIcon: ({ focused, color, size }) => (
-            <TabBarIcon
-              focused={focused}
-              color={color}
-              size={size}
-              Icon={Shield}
             />
           ),
           animation: "fade",

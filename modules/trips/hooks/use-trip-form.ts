@@ -4,21 +4,23 @@ import { useForm } from "react-hook-form";
 
 import {
   defaultValues,
-  sosSchema,
+  tripFormSchema,
   STEP_COUNT,
   stepFields,
-  type SosSchemaInput,
-  type SosSchemaOutput,
-} from "../schemas/sos.schema";
+  type TripFormInput,
+  type TripFormOutput,
+} from "../schemas/trip-form.schema";
 import { useCreateTrip } from "./use-trips";
+import type { CreateTripResponse } from "@/core/types/trip";
+import type { ExternalApp } from "@/core/types/trip";
 
-export default function useSosForm() {
+export default function useTripForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const { mutateAsync } = useCreateTrip();
+  const { mutateAsync, isPending: isCreating, error: createError } = useCreateTrip();
 
-  const form = useForm<SosSchemaInput, unknown, SosSchemaOutput>({
-    resolver: zodResolver(sosSchema),
+  const form = useForm<TripFormInput, unknown, TripFormOutput>({
+    resolver: zodResolver(tripFormSchema),
     defaultValues,
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -36,18 +38,16 @@ export default function useSosForm() {
     setCurrentStep((s) => Math.max(0, s - 1));
   }, []);
 
-  const handleSubmit = useCallback(async () => {
-    console.log("Submitting form with data:", form.getValues());
-
+  const handleSubmit = useCallback(async (): Promise<CreateTripResponse> => {
     const data = {
-      externalApp: form.getValues("appName"),
+      externalApp: form.getValues("appName") as ExternalApp,
       driverPlate: form.getValues("driverPlate"),
-      driverName: form.getValues("driverName"),
-      vehicleColor: form.getValues("carColor"),
+      driverName: form.getValues("driverName") || undefined,
+      vehicleColor: form.getValues("carColor") || undefined,
       audioEnabled: form.getValues("enabledAudio"),
     };
-    await mutateAsync(data);
-  }, []);
+    return mutateAsync(data);
+  }, [form, mutateAsync]);
 
   return {
     form,
@@ -55,6 +55,8 @@ export default function useSosForm() {
     isFirstStep: currentStep === 0,
     isLastStep: currentStep === STEP_COUNT - 1,
     totalSteps: STEP_COUNT,
+    isCreating,
+    createError: createError instanceof Error ? createError.message : createError ? String(createError) : null,
     next,
     back,
     handleSubmit,

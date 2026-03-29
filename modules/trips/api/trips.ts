@@ -1,5 +1,11 @@
 import { apiFetch } from "@/core/lib/api";
-import { TripHistory } from "@/core/types/recent-trips";
+import type { TripHistory } from "@/core/types/recent-trips";
+import type {
+  ActiveTrip,
+  CreateTripInput,
+  CreateTripResponse,
+  EndTripResponse,
+} from "@/core/types/trip";
 
 type TripHistoryResponse = {
   page: number;
@@ -8,26 +14,29 @@ type TripHistoryResponse = {
   trips: TripHistory[];
 };
 
-export async function getTripsHistory(userId: string) {
-  try {
-    const response = await apiFetch<TripHistoryResponse>(
-      `/trip/history/${userId}?limit=3`,
-    );
-    return response;
-  } catch (error) {
-    console.error({ error });
-  }
+export async function getTripsHistory() {
+  return apiFetch<TripHistoryResponse>(`/trip/history?limit=3`);
 }
 
-export async function createTrip(tripData: any) {
-  try {
-    const response = await apiFetch<any>(`/trip`, {
-      method: "POST",
-      body: JSON.stringify(tripData),
-    });
-    console.log("Trip created successfully:", response);
-    return response;
-  } catch (error) {
-    console.error({ error });
-  }
+export async function createTrip(
+  tripData: CreateTripInput,
+): Promise<CreateTripResponse> {
+  return apiFetch<CreateTripResponse>("/trip", {
+    method: "POST",
+    body: JSON.stringify(tripData),
+  });
+}
+
+export async function endTrip(tripId: string): Promise<EndTripResponse> {
+  return apiFetch<EndTripResponse>(`/trip/${tripId}/end`, {
+    method: "PATCH",
+  });
+}
+
+export async function getActiveTrip(): Promise<ActiveTrip | null> {
+  const result = await apiFetch<ActiveTrip | { active: false }>(
+    "/trip/active",
+  );
+  if ("active" in result && result.active === false) return null;
+  return result as ActiveTrip;
 }

@@ -46,8 +46,6 @@ function AppNavigation() {
     return null;
   }
 
-  console.log({ isAuthenticated });
-
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!isAuthenticated}>
@@ -55,6 +53,7 @@ function AppNavigation() {
       </Stack.Protected>
       <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="trip" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   );

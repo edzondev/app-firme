@@ -1,9 +1,5 @@
+import { Text, View } from "react-native";
 import { Button } from "@/core/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/core/components/ui/field";
-import { Input } from "@/core/components/ui/input";
-import { Eye, EyeOff, X } from "lucide-react-native";
-import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
 import LoginForm from "../components/login-form";
 
 export default function LoginScreen() {
@@ -29,7 +25,7 @@ export default function LoginScreen() {
           title="Iniciar sesión con Apple"
           variant="outline"
           size="lg"
-          className="rounded-full bg- border-slate-900 bg-slate-800"
+          className="rounded-full border-slate-900 bg-slate-800"
           textClassName="text-white"
         />
       </View>

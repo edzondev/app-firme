@@ -3,9 +3,10 @@ import MainLayout from "@/core/layouts/main-layout";
 import AppSelectorStep from "@/modules/trips/components/form/app-selector-step";
 import { TripConfirmStep } from "@/modules/trips/components/form/trip-confirm-step";
 import TripDataStep from "@/modules/trips/components/form/trip-data-step";
-import useSosForm from "@/modules/trips/hooks/use-sos-form";
+import useTripForm from "@/modules/trips/hooks/use-trip-form";
+import { useTripActivation } from "@/modules/trips/hooks/use-trip-activation";
 import { FormProvider } from "react-hook-form";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { StepIndicator } from "../components/step-indicator";
 
 const STEP_LABELS: Record<
@@ -44,16 +45,37 @@ export function SafeTravelScreen() {
     isLastStep,
     next,
     totalSteps,
+    isCreating,
+    createError,
     handleSubmit,
-  } = useSosForm();
+  } = useTripForm();
+
+  const { activate, status: activationStatus, error: activationError } = useTripActivation();
+  const isBusy = isCreating || activationStatus === "activating";
+  const errorMessage = createError || activationError;
 
   const meta = STEP_LABELS[currentStep + 1];
+
+  const onSubmit = async () => {
+    try {
+      const tripResponse = await handleSubmit();
+      await activate(tripResponse, {
+        externalApp: form.getValues("appName"),
+        driverPlate: form.getValues("driverPlate"),
+        driverName: form.getValues("driverName") || undefined,
+        audioEnabled: form.getValues("enabledAudio") ?? false,
+      });
+    } catch (err) {
+      // El error de activación ya se maneja en useTripActivation.
+      // Aquí solo capturamos el error de createTrip (handleSubmit).
+      console.error("Error al crear viaje:", err);
+    }
+  };
 
   return (
     <MainLayout edges={["top", "bottom"]}>
       <FormProvider {...form}>
         <View className="flex-1 px-6 pt-8">
-          {/* Header */}
           <View className="flex-col items-start gap-1">
             <Text
               className="text-3xl font-bold text-text-primary"
@@ -83,10 +105,15 @@ export function SafeTravelScreen() {
             </Text>
           </View>
 
-          {/* Form */}
           {STEP_COMPONENTS[currentStep + 1]}
 
           <View className="flex-1" />
+
+          {errorMessage && (
+            <Text className="text-red-500 text-sm text-center mb-3">
+              {errorMessage}
+            </Text>
+          )}
 
           <View className="flex-row gap-2">
             {!isFirstStep && (
@@ -95,16 +122,19 @@ export function SafeTravelScreen() {
                 variant="outline"
                 onPress={back}
                 className="flex-auto"
+                disabled={isBusy}
               />
             )}
 
-            {/* Botón principal */}
             <Button
-              title={meta.cta}
+              title={isBusy ? "" : meta.cta}
               variant="primary"
-              onPress={isLastStep ? () => handleSubmit() : next}
+              onPress={isLastStep ? onSubmit : next}
               className="flex-auto"
-            />
+              disabled={isBusy}
+            >
+              {isBusy && <ActivityIndicator color="white" />}
+            </Button>
           </View>
         </View>
       </FormProvider>

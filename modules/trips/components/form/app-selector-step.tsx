@@ -3,7 +3,7 @@ import { cn } from "@/core/lib/utils";
 import { Car } from "lucide-react-native";
 import { Controller, useFormContext } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
-import { SosSchemaOutput } from "../../schemas/sos.schema";
+import { TripFormOutput } from "../../schemas/trip-form.schema";
 
 export type AppId = "indrive" | "uber" | "didi" | "yango" | "cabify" | "otro";
 
@@ -52,7 +52,7 @@ function AppCard({
 }
 
 export default function AppSelectorStep() {
-  const { control, getValues, setValue } = useFormContext<SosSchemaOutput>();
+  const { control, getValues, setValue } = useFormContext<TripFormOutput>();
 
   return (
     <Controller

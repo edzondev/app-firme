@@ -1,21 +1,19 @@
 import { z } from "zod";
 
-export const sosSchema = z.object({
+export const tripFormSchema = z.object({
   appName: z.string().min(1, { error: "Debes seleccionar una app." }),
   driverPlate: z.string().min(1, { error: "La placa es requerida" }),
-  driverName: z
-    .string()
-    .min(1, { error: "El nombre del conductor es requerido" }),
-  carColor: z.string().min(1, { error: "El color es requerido" }),
+  driverName: z.string().optional().default(""),
+  carColor: z.string().optional().default(""),
   enabledAudio: z.boolean().default(false),
   enableSharedDirection: z.boolean().default(true),
 });
 
-export const sosApplicationSchema = sosSchema.pick({
+export const tripFormAppSchema = tripFormSchema.pick({
   appName: true,
 });
 
-export const sosTripDataSchema = sosSchema.pick({
+export const tripFormDataSchema = tripFormSchema.pick({
   driverPlate: true,
   driverName: true,
   carColor: true,
@@ -23,18 +21,18 @@ export const sosTripDataSchema = sosSchema.pick({
   enableSharedDirection: true,
 });
 
-export const stepSchemas = [sosApplicationSchema, sosTripDataSchema] as const;
+export const stepSchemas = [tripFormAppSchema, tripFormDataSchema] as const;
 export const STEP_COUNT = stepSchemas.length + 1;
 
-export type SosSchemaInput = z.input<typeof sosSchema>;
-export type SosSchemaOutput = z.output<typeof sosSchema>;
-export type StepFields = Array<keyof SosSchemaInput>;
+export type TripFormInput = z.input<typeof tripFormSchema>;
+export type TripFormOutput = z.output<typeof tripFormSchema>;
+export type StepFields = Array<keyof TripFormInput>;
 
 export const stepFields = stepSchemas.map(
   (schema) => Object.keys(schema.shape) as StepFields,
 );
 
-export const defaultValues: SosSchemaInput = {
+export const defaultValues: TripFormInput = {
   appName: "",
   driverPlate: "",
   driverName: "",

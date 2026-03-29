@@ -5,7 +5,7 @@ import { ChevronDown, Lock, MapPin, Mic } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { SosSchemaOutput } from "../../schemas/sos.schema";
+import { TripFormOutput } from "../../schemas/trip-form.schema";
 
 const VEHICLE_COLORS = [
   { id: "blanco", name: "Blanco", hex: "#F8F8F8", border: "#E5E5E5" },
@@ -20,7 +20,7 @@ const VEHICLE_COLORS = [
 
 export default function TripDataStep() {
   const [colorOpen, setColorOpen] = useState(false);
-  const { control, getValues, setValue } = useFormContext<SosSchemaOutput>();
+  const { control, getValues, setValue } = useFormContext<TripFormOutput>();
 
   const selectedColor = VEHICLE_COLORS.find(
     (c) => c.id === getValues("carColor"),

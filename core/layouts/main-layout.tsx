@@ -21,11 +21,11 @@ export default function MainLayout({
 }: Props) {
   return (
     <SafeAreaView
-      className={cn("flex-1 bg bg-background", className)}
+      className={cn("flex-1 bg-background", className)}
       edges={edges}
       {...props}
     >
-      <View className="flex-1">{children}</View>
+      <View className="flex-1 p-safe">{children}</View>
     </SafeAreaView>
   );
 }

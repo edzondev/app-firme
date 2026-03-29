@@ -1,5 +1,5 @@
 import { SafeTravelScreen } from "@/modules/safe-travel/screens/safe-travel-screen";
 
-export default function SOSPage() {
+export default function TripStartPage() {
   return <SafeTravelScreen />;
 }

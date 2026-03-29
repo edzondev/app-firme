@@ -1,13 +1,13 @@
-import { type PropsWithChildren, type RefObject } from "react";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { type BottomSheetProps, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { type PropsWithChildren, type RefObject } from "react";
 
-type BottomSheetProps = PropsWithChildren<{
+type BottomSheetComponentProps = PropsWithChildren<{
   bottomSheetRef: RefObject<BottomSheetMethods | null>;
   onChange: (index: number) => void;
   index: number;
   snapPoints?: string[];
-}>;
+}> & Omit<BottomSheetProps, "ref" | "onChange" | "index" | "snapPoints" | "children">;
 
 export default function BottomSheetComponent({
   bottomSheetRef,
@@ -15,7 +15,8 @@ export default function BottomSheetComponent({
   index,
   snapPoints,
   children,
-}: BottomSheetProps) {
+  ...rest
+}: BottomSheetComponentProps) {
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -24,6 +25,7 @@ export default function BottomSheetComponent({
       snapPoints={snapPoints}
       enableDynamicSizing={false}
       enablePanDownToClose
+      {...rest}
     >
       <BottomSheetView className="px-4">{children}</BottomSheetView>
     </BottomSheet>

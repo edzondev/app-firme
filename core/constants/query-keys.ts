@@ -3,4 +3,7 @@ export const queryKeys = {
   profile: ["profile"] as const,
   contacts: ["contacts"] as const,
   tripsHistory: ["tripsHistory"] as const,
+  activeTrip: ["activeTrip"] as const,
+  activeSos: ["activeSos"] as const,
+  sosDetail: ["sosDetail"] as const,
 } as const;

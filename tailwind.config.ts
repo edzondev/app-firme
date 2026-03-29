@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
 import { hairlineWidth } from "nativewind/theme";
+import type { Config } from "tailwindcss";
 
 module.exports = {
   darkMode: "class",
@@ -24,6 +24,7 @@ module.exports = {
         },
         card: "hsl(var(--card))",
         destructive: "hsl(var(--destructive))",
+        sos: "hsl(var(--sos))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
