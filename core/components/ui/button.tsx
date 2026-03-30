@@ -1,4 +1,5 @@
 import { cn } from "@/core/lib/utils";
+import { LucideIcon } from "lucide-react-native";
 import React from "react";
 import { Pressable, Text, type PressableProps } from "react-native";
 
@@ -11,6 +12,9 @@ export interface ButtonProps extends PressableProps {
   size?: ButtonSize;
   className?: string;
   textClassName?: string;
+  icon?: LucideIcon;
+  iconPosition?: "left" | "right";
+  iconClassName?: string;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -44,20 +48,30 @@ export const Button = ({
   className,
   textClassName,
   disabled,
+  icon: Icon,
+  iconPosition = "left",
+  iconClassName,
   ...props
 }: ButtonProps) => {
   return (
     <Pressable
       className={cn(
-        "flex-row h-14 items-center justify-center rounded-md active:opacity-80",
+        "flex-row h-14 items-center justify-center rounded-2xl active:opacity-80 gap-2",
+        className,
         variantStyles[variant],
         sizeStyles[size],
         disabled && "opacity-50",
-        className,
       )}
       disabled={disabled}
       {...props}
     >
+      {Icon && iconPosition === "left" && (
+        <Icon
+          size={18}
+          color={"#FFFFFF"}
+          className={cn("mr-2", iconClassName)}
+        />
+      )}
       <Text
         className={cn(
           "font-medium text-center",
@@ -68,6 +82,13 @@ export const Button = ({
       >
         {title}
       </Text>
+      {Icon && iconPosition === "right" && (
+        <Icon
+          size={18}
+          color={"#FFFFFF"}
+          className={cn("ml-2", iconClassName)}
+        />
+      )}
     </Pressable>
   );
 };

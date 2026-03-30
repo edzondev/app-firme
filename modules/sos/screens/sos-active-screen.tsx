@@ -58,10 +58,20 @@ export function SOSActiveScreen() {
     () => (
       <View className="gap-4 flex-row justify-between w-full">
         <View className="flex-1">
-          <Button title="No, mantener" variant="outline" onPress={dismissResolveConfirm} disabled={isResolving} />
+          <Button
+            title="No, mantener"
+            variant="destructive"
+            onPress={dismissResolveConfirm}
+            disabled={isResolving}
+          />
         </View>
         <View className="flex-1">
-          <Button title={isResolving ? "Cancelando..." : "Sí, estoy bien"} variant="primary" onPress={confirmResolved} disabled={isResolving} />
+          <Button
+            title={isResolving ? "Cancelando..." : "Sí, estoy bien"}
+            variant="outline"
+            onPress={confirmResolved}
+            disabled={isResolving}
+          />
         </View>
       </View>
     ),
@@ -131,7 +141,10 @@ export function SOSActiveScreen() {
         />
 
         {hasSosAlert && (
-          <ResolveSOSButton isResolving={isResolving} onPress={requestResolve} />
+          <ResolveSOSButton
+            isResolving={isResolving}
+            onPress={requestResolve}
+          />
         )}
       </ScrollView>
 

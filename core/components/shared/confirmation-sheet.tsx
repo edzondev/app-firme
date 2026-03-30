@@ -38,17 +38,27 @@ export function ConfirmationSheet({
     >
       {error ? (
         <View className="gap-4 pt-4 pb-2">
-          <Text className="text-lg font-bold text-text-primary">Error</Text>
-          <Text className="text-text-secondary leading-5">{error}</Text>
-          <Button title="Entendido" variant="primary" onPress={onDismissError} />
+          <Text className="text-lg font-bold text-secondary-foreground">
+            Error
+          </Text>
+          <Text className="text-secondary-foreground leading-5">{error}</Text>
+          <Button
+            title="Entendido"
+            variant="primary"
+            onPress={onDismissError}
+          />
         </View>
       ) : (
         <View className="gap-4 pt-4 pb-2">
           {confirmTitle && (
-            <Text className="text-lg font-bold text-text-primary">{confirmTitle}</Text>
+            <Text className="text-lg font-bold text-secondary-foreground">
+              {confirmTitle}
+            </Text>
           )}
           {confirmMessage && (
-            <Text className="text-text-secondary leading-5">{confirmMessage}</Text>
+            <Text className="text-secondary-foreground leading-5">
+              {confirmMessage}
+            </Text>
           )}
           {confirmActions}
         </View>

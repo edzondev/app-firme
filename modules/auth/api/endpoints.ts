@@ -1,17 +1,9 @@
 import { apiFetch } from "@/core/lib/api";
+import { Profile } from "@/core/types/profile";
 
 export type RegisterUserInput = {
   fullName: string;
   phone?: string;
-};
-
-export type Profile = {
-  id: string;
-  firebaseUid: string;
-  fullName: string;
-  email: string | null;
-  phone: string | null;
-  avatarUrl: string | null;
 };
 
 export function registerUserInBackend(data: RegisterUserInput) {
@@ -21,6 +13,8 @@ export function registerUserInBackend(data: RegisterUserInput) {
   });
 }
 
-export function getProfile() {
-  return apiFetch<Profile>("/auth/me");
+export function getProfile(signal?: AbortSignal) {
+  return apiFetch<
+    Pick<Profile, "id" | "firebaseUid" | "fullName" | "email" | "phone">
+  >("/auth/me", { signal });
 }

@@ -1,7 +1,7 @@
 import { cn } from "@/core/lib/utils";
 import { View } from "react-native";
 
-const COLOR_FILLED = "#107359";
+const COLOR_FILLED = "#7664e5";
 const COLOR_EMPTY = "#E0E0D8";
 
 type Props = {

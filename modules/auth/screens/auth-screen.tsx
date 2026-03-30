@@ -111,7 +111,7 @@ export default function AuthScreen() {
                 </Text>
                 <View className="ml-2 mb-1 h-2 w-2 rounded-full bg-accent" />
               </View>
-              <Text className="mt-1.5 text-sm text-text-secondary tracking-wide">
+              <Text className="mt-1.5 text-sm text-secondary-foreground tracking-wide">
                 Tu espacio de confianza
               </Text>
             </View>
@@ -137,7 +137,9 @@ export default function AuthScreen() {
               >
                 <Text
                   className={`text-sm font-semibold ${
-                    isLogin ? "text-text-primary" : "text-text-secondary"
+                    isLogin
+                      ? "text-secondary-foreground"
+                      : "text-secondary-foreground"
                   }`}
                 >
                   Ingresar
@@ -163,7 +165,9 @@ export default function AuthScreen() {
               >
                 <Text
                   className={`text-sm font-semibold ${
-                    !isLogin ? "text-text-primary" : "text-text-secondary"
+                    !isLogin
+                      ? "text-secondary-foreground"
+                      : "text-secondary-foreground"
                   }`}
                 >
                   Crear cuenta
@@ -174,12 +178,12 @@ export default function AuthScreen() {
             {/* ── Heading ── */}
             <View className="mb-7">
               <Text
-                className="text-3xl font-bold text-text-primary"
+                className="text-3xl font-bold text-secondary-foreground"
                 style={{ letterSpacing: -0.5, lineHeight: 36 }}
               >
                 {isLogin ? "Bienvenido\nde vuelta" : "Crea tu\ncuenta"}
               </Text>
-              <Text className="mt-2.5 text-sm text-text-secondary leading-5">
+              <Text className="mt-2.5 text-sm text-secondary-foreground leading-5">
                 {isLogin
                   ? "Ingresa tus datos para continuar"
                   : "Completa el formulario para comenzar"}
@@ -192,7 +196,7 @@ export default function AuthScreen() {
                 <>
                   {/* Email — Login */}
                   <View>
-                    <Text className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-2">
+                    <Text className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                       Correo electrónico
                     </Text>
                     <Controller
@@ -209,7 +213,7 @@ export default function AuthScreen() {
                             }`}
                           >
                             <TextInput
-                              className="flex-1 text-text-primary text-base"
+                              className="flex-1 text-secondary-foreground text-base"
                               placeholder="hola@ejemplo.com"
                               placeholderTextColor="hsl(0, 0%, 65%)"
                               keyboardType="email-address"
@@ -232,7 +236,7 @@ export default function AuthScreen() {
 
                   {/* Password — Login */}
                   <View>
-                    <Text className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-2">
+                    <Text className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                       Contraseña
                     </Text>
                     <Controller
@@ -249,7 +253,7 @@ export default function AuthScreen() {
                             }`}
                           >
                             <TextInput
-                              className="flex-1 text-text-primary text-base"
+                              className="flex-1 text-secondary-foreground text-base"
                               placeholder="••••••••"
                               placeholderTextColor="hsl(0, 0%, 65%)"
                               secureTextEntry={!showPassword}
@@ -299,7 +303,7 @@ export default function AuthScreen() {
                 <>
                   {/* Email — Register */}
                   <View>
-                    <Text className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-2">
+                    <Text className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                       Correo electrónico
                     </Text>
                     <Controller
@@ -314,7 +318,7 @@ export default function AuthScreen() {
                             }`}
                           >
                             <TextInput
-                              className="flex-1 text-text-primary text-base"
+                              className="flex-1 text-secondary-foreground text-base"
                               placeholder="hola@ejemplo.com"
                               placeholderTextColor="hsl(0, 0%, 65%)"
                               keyboardType="email-address"
@@ -338,7 +342,7 @@ export default function AuthScreen() {
 
                   {/* Password — Register */}
                   <View>
-                    <Text className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-2">
+                    <Text className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                       Contraseña
                     </Text>
                     <Controller
@@ -356,7 +360,7 @@ export default function AuthScreen() {
                             }`}
                           >
                             <TextInput
-                              className="flex-1 text-text-primary text-base"
+                              className="flex-1 text-secondary-foreground text-base"
                               placeholder="••••••••"
                               placeholderTextColor="hsl(0, 0%, 65%)"
                               secureTextEntry={!showPassword}
@@ -395,7 +399,7 @@ export default function AuthScreen() {
 
                   {/* Confirm password — Register */}
                   <View>
-                    <Text className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-2">
+                    <Text className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                       Confirmar contraseña
                     </Text>
                     <Controller
@@ -413,7 +417,7 @@ export default function AuthScreen() {
                             }`}
                           >
                             <TextInput
-                              className="flex-1 text-text-primary text-base"
+                              className="flex-1 text-secondary-foreground text-base"
                               placeholder="••••••••"
                               placeholderTextColor="hsl(0, 0%, 65%)"
                               secureTextEntry={!showConfirmPassword}
@@ -498,7 +502,7 @@ export default function AuthScreen() {
             {/* ── Separator ── */}
             <View className="flex-row items-center mt-8 mb-6">
               <View className="flex-1 h-px bg-border" />
-              <Text className="mx-4 text-xs text-text-secondary tracking-wider">
+              <Text className="mx-4 text-xs text-secondary-foreground tracking-wider">
                 o continúa con
               </Text>
               <View className="flex-1 h-px bg-border" />
@@ -509,14 +513,14 @@ export default function AuthScreen() {
               className="h-14 bg-card border border-border rounded-2xl flex-row items-center justify-center"
               style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
             >
-              <Text className="text-text-primary text-sm font-medium">
+              <Text className="text-secondary-foreground text-sm font-medium">
                 Continuar con Google
               </Text>
             </Pressable>
 
             {/* ── Footer ── */}
             <View className="mt-5 pt-8 items-center">
-              <Text className="text-xs text-text-secondary text-center leading-5">
+              <Text className="text-xs text-secondary-foreground text-center leading-5">
                 Al continuar aceptas los{" "}
                 <Text className="text-accent font-medium">
                   términos de servicio

@@ -1,0 +1,24 @@
+export type Profile = {
+  id: string;
+  firebaseUid: string;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  avatarUrl: null;
+  rcCustomerId: null;
+  subscriptionStatus: string | null;
+  subscriptionProductId: null;
+  subscriptionExpiresAt: null;
+  subscriptionStore: null;
+  subscriptionStartedAt: null;
+  expoPushToken: null;
+  settingsAudioQuality: string;
+  settingsSosDelay: 3;
+  settingsDarkMode: false;
+  settingsNotificationsEnabled: true;
+  customSosMessage: null;
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt: string;
+  isDeleted: false;
+};

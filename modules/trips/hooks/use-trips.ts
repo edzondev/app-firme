@@ -7,11 +7,10 @@ import {
   getTripsHistory,
 } from "../api/trips";
 
-export function useTrips(userId: string) {
+export function useTrips() {
   return useQuery({
-    queryKey: [...queryKeys.tripsHistory, userId],
-    queryFn: () => getTripsHistory(),
-    enabled: !!userId,
+    queryKey: queryKeys.tripsHistory,
+    queryFn: ({ signal }) => getTripsHistory(signal),
   });
 }
 
@@ -38,7 +37,9 @@ export function useEndTrip() {
   });
 }
 
-export function useActiveTrip(options?: { refetchOnMount?: boolean | "always" }) {
+export function useActiveTrip(options?: {
+  refetchOnMount?: boolean | "always";
+}) {
   return useQuery({
     queryKey: queryKeys.activeTrip,
     queryFn: getActiveTrip,

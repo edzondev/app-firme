@@ -28,7 +28,7 @@ export function TripBottomSheet({
   onSOSTrigger,
 }: TripBottomSheetProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["40%", "43%"], []);
+  const snapPoints = useMemo(() => ["45%"], []);
 
   return (
     <BottomSheet
@@ -36,14 +36,17 @@ export function TripBottomSheet({
       index={0}
       snapPoints={snapPoints}
       enableDynamicSizing={false}
-      onChange={() => { }}
+      onChange={() => {}}
       style={{ zIndex: 30, elevation: 30 }}
       backgroundStyle={{ borderRadius: 24 }}
       handleIndicatorStyle={{ backgroundColor: "#d1d5db", width: 40 }}
     >
       <BottomSheetView className="flex-1 px-6 pt-2 pb-8">
-        <View className="flex-row items-center gap-2">
-          <View className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "#00000012" }}>
+        <View className="flex-row items-center gap-4">
+          <View
+            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+            style={{ backgroundColor: "#00000012" }}
+          >
             <Car size={20} color="#000" />
           </View>
           <View className="flex-1 flex-col gap-1">
@@ -59,7 +62,7 @@ export function TripBottomSheet({
               )}
             </View>
             {tripData.driverName && (
-              <Text className="text-sm font-medium text-gray-500">
+              <Text className="text-sm font-medium text-foreground">
                 Conductor: {tripData.driverName}
               </Text>
             )}

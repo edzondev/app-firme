@@ -1,11 +1,11 @@
-import { loginSchema, type LoginFormData } from "../schemas/auth.schema";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import {
   getAuth,
   signInWithEmailAndPassword,
 } from "@react-native-firebase/auth";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { loginSchema, type LoginFormData } from "../schemas/auth.schema";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);

@@ -14,8 +14,10 @@ type TripHistoryResponse = {
   trips: TripHistory[];
 };
 
-export async function getTripsHistory() {
-  return apiFetch<TripHistoryResponse>(`/trip/history?limit=3`);
+export async function getTripsHistory(
+  signal?: AbortSignal,
+): Promise<TripHistoryResponse> {
+  return apiFetch<TripHistoryResponse>(`/trip/history?limit=3`, { signal });
 }
 
 export async function createTrip(
@@ -34,9 +36,7 @@ export async function endTrip(tripId: string): Promise<EndTripResponse> {
 }
 
 export async function getActiveTrip(): Promise<ActiveTrip | null> {
-  const result = await apiFetch<ActiveTrip | { active: false }>(
-    "/trip/active",
-  );
+  const result = await apiFetch<ActiveTrip | { active: false }>("/trip/active");
   if ("active" in result && result.active === false) return null;
   return result as ActiveTrip;
 }

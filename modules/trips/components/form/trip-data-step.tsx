@@ -97,7 +97,7 @@ export default function TripDataStep() {
                             selectedColor.border ?? selectedColor.hex,
                         }}
                       />
-                      <Text className="text-[15px] text-text-primary flex-1">
+                      <Text className="text-[15px] text-secondary-foreground flex-1">
                         {selectedColor.name}
                       </Text>
                     </View>
@@ -140,7 +140,7 @@ export default function TripDataStep() {
                               : (color.border ?? color.hex),
                         }}
                       />
-                      <Text className="text-base text-text-secondary">
+                      <Text className="text-base text-secondary-foreground">
                         {color.name}
                       </Text>
                     </Pressable>
@@ -162,16 +162,16 @@ export default function TripDataStep() {
             render={({ fieldState, field }) => (
               <Field>
                 <View className="flex-row items-center gap-3 mb-5">
-                  <View className="w-8 h-8 rounded-full items-center justify-center bg-[#F3F4F6]">
-                    <Mic size={16} color="#6B7280" />
+                  <View className="w-8 h-8 rounded-full items-center justify-center bg-[#7664e51A]">
+                    <Mic size={16} color="#7664e5" />
                   </View>
                   <View className="flex-1">
                     <View className="flex-row items-center gap-1.5">
-                      <Text className="text-sm font-medium text-text-primary shrink">
+                      <Text className="text-sm font-medium text-secondary-foreground shrink">
                         Grabación de audio
                       </Text>
-                      <View className="flex-row items-center gap-1 px-1.5 py-0.5 rounded bg-[#F0FBF7]">
-                        <Lock size={10} color="#107359" />
+                      <View className="flex-row items-center gap-1 px-1.5 py-0.5 rounded bg-[#7664e51A]">
+                        <Lock size={10} color="#7664e5" />
                         <Text className="text-[10px] text-primary font-semibold">
                           Premium
                         </Text>
@@ -196,14 +196,14 @@ export default function TripDataStep() {
             render={({ fieldState, field }) => (
               <Field>
                 <View className="flex-row items-center gap-3">
-                  <View className="w-8 h-8 rounded-full items-center justify-center bg-[#F0FBF7]">
-                    <MapPin size={16} color="#107359" />
+                  <View className="w-8 h-8 rounded-full items-center justify-center bg-[#7664e51A]">
+                    <MapPin size={16} color="#7664e5" />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-sm font-medium text-text-primary">
+                    <Text className="text-sm font-medium text-secondary-foreground">
                       Compartir ubicación
                     </Text>
-                    <Text className="text-xs text-text-secondary mt-0.5">
+                    <Text className="text-xs text-secondary-foreground mt-0.5">
                       Con tus contactos de emergencia
                     </Text>
                   </View>

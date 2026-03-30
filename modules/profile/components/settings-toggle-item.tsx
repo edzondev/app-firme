@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
-import type { SvgProps } from "react-native-svg";
 import { Switch, Text, View } from "react-native";
+import type { SvgProps } from "react-native-svg";
 
 type Props = {
   Icon: ComponentType<SvgProps & { color?: string; size?: number }>;
@@ -21,7 +21,7 @@ export default function SettingsToggleItem({
     <View>
       <View className="flex-row items-center px-4 py-3.5 gap-3">
         <Icon size={20} color="hsl(164.84, 76%, 24.51%)" />
-        <Text className="flex-1 text-sm font-medium text-text-primary">
+        <Text className="flex-1 text-sm font-medium text-secondary-foreground">
           {label}
         </Text>
         <Switch
@@ -34,9 +34,7 @@ export default function SettingsToggleItem({
           thumbColor="white"
         />
       </View>
-      {showDivider && (
-        <View className="h-px bg-border mx-4" />
-      )}
+      {showDivider && <View className="h-px bg-border mx-4" />}
     </View>
   );
 }

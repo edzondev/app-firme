@@ -3,8 +3,8 @@ import MainLayout from "@/core/layouts/main-layout";
 import AppSelectorStep from "@/modules/trips/components/form/app-selector-step";
 import { TripConfirmStep } from "@/modules/trips/components/form/trip-confirm-step";
 import TripDataStep from "@/modules/trips/components/form/trip-data-step";
-import useTripForm from "@/modules/trips/hooks/use-trip-form";
 import { useTripActivation } from "@/modules/trips/hooks/use-trip-activation";
+import useTripForm from "@/modules/trips/hooks/use-trip-form";
 import { FormProvider } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
 import { StepIndicator } from "../components/step-indicator";
@@ -50,7 +50,11 @@ export function SafeTravelScreen() {
     handleSubmit,
   } = useTripForm();
 
-  const { activate, status: activationStatus, error: activationError } = useTripActivation();
+  const {
+    activate,
+    status: activationStatus,
+    error: activationError,
+  } = useTripActivation();
   const isBusy = isCreating || activationStatus === "activating";
   const errorMessage = createError || activationError;
 
@@ -78,12 +82,12 @@ export function SafeTravelScreen() {
         <View className="flex-1 px-6 pt-8">
           <View className="flex-col items-start gap-1">
             <Text
-              className="text-3xl font-bold text-text-primary"
+              className="text-3xl font-bold text-secondary-foreground"
               style={{ letterSpacing: -0.3 }}
             >
               Iniciar viaje seguro
             </Text>
-            <Text className="font-semibold text-base text-text-secondary">
+            <Text className="font-semibold text-base text-secondary-foreground">
               Paso {currentStep + 1} de {totalSteps}
             </Text>
           </View>
@@ -95,12 +99,12 @@ export function SafeTravelScreen() {
 
           <View className="mb-8">
             <Text
-              className="text-2xl font-bold text-text-primary"
+              className="text-2xl font-bold text-secondary-foreground"
               style={{ letterSpacing: -0.4 }}
             >
               {meta.title}
             </Text>
-            <Text className="text-base text-text-secondary mt-1.5 leading-5">
+            <Text className="text-base text-secondary-foreground mt-1.5 leading-5">
               {meta.subtitle}
             </Text>
           </View>

@@ -1,6 +1,6 @@
 import { Switch } from "react-native";
 
-const COLOR_ON = "#107359";
+const COLOR_ON = "#7664e5";
 const COLOR_OFF = "#D1D5DB";
 
 type Props = {

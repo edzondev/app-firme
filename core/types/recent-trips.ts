@@ -13,7 +13,7 @@ export type TripHistory = {
   shareEnabled: boolean;
   shareToken: string;
   startedAt: string;
-  status: string;
+  status: "active" | "completed" | "canceled" | "sos_triggered";
   userId: string;
   userRating: number;
   vehicleColor: string;

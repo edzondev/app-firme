@@ -1,5 +1,4 @@
-import { Controller } from "react-hook-form";
-import useLogin from "../hooks/use-login";
+import { Button } from "@/core/components/ui/button";
 import {
   Field,
   FieldError,
@@ -7,9 +6,10 @@ import {
   FieldLabel,
 } from "@/core/components/ui/field";
 import { Input } from "@/core/components/ui/input";
-import { Pressable, Text, View } from "react-native";
-import { Button } from "@/core/components/ui/button";
 import { Eye, EyeOff } from "lucide-react-native";
+import { Controller } from "react-hook-form";
+import { Pressable, Text, View } from "react-native";
+import useLogin from "../hooks/use-login";
 
 export default function LoginForm() {
   const {
@@ -121,7 +121,6 @@ export default function LoginForm() {
           title={isLoading ? "Cargando..." : "Continuar"}
           size="lg"
           disabled={isLoading}
-          className="rounded-full"
           onPress={() => onSubmit(form.getValues())}
         />
       </View>

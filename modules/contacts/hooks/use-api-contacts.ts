@@ -2,12 +2,11 @@ import { queryKeys } from "@/core/constants/query-keys";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addContact, getContacts } from "../api/contacts";
 
-function useApiContacts() {
-  const data = useQuery({
+function useGetContacts() {
+  return useQuery({
     queryKey: queryKeys.contacts,
-    queryFn: getContacts,
+    queryFn: ({ signal }) => getContacts(signal),
   });
-  return data;
 }
 
 function useApiAddContact() {
@@ -20,4 +19,4 @@ function useApiAddContact() {
   });
 }
 
-export { useApiContacts, useApiAddContact };
+export { useApiAddContact, useGetContacts };

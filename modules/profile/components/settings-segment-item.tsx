@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
-import type { SvgProps } from "react-native-svg";
 import { Text, TouchableOpacity, View } from "react-native";
+import type { SvgProps } from "react-native-svg";
 
 type Props = {
   Icon: ComponentType<SvgProps & { color?: string; size?: number }>;
@@ -23,7 +23,7 @@ export default function SettingsSegmentItem({
     <View>
       <View className="flex-row items-center px-4 py-3.5 gap-3">
         <Icon size={20} color="hsl(164.84, 76%, 24.51%)" />
-        <Text className="flex-1 text-sm font-medium text-text-primary">
+        <Text className="flex-1 text-sm font-medium text-secondary-foreground">
           {label}
         </Text>
         <View
@@ -41,12 +41,15 @@ export default function SettingsSegmentItem({
                   isSelected
                     ? { backgroundColor: "hsl(164.84, 76%, 24.51%)" }
                     : index > 0
-                      ? { borderLeftWidth: 1, borderLeftColor: "hsl(60, 4.17%, 85%)" }
+                      ? {
+                          borderLeftWidth: 1,
+                          borderLeftColor: "hsl(60, 4.17%, 85%)",
+                        }
                       : undefined
                 }
               >
                 <Text
-                  className={`text-xs font-semibold ${isSelected ? "text-white" : "text-text-secondary"}`}
+                  className={`text-xs font-semibold ${isSelected ? "text-white" : "text-secondary-foreground"}`}
                 >
                   {option}
                 </Text>

@@ -47,7 +47,7 @@ export function TripConfirmStep() {
       </View>
 
       {/* Note */}
-      <Text className="text-xs text-text-secondary text-center mt-4 leading-5">
+      <Text className="text-xs text-secondary-foreground text-center mt-4 leading-5">
         Puedes terminar el viaje en cualquier momento
       </Text>
     </>
@@ -57,9 +57,9 @@ export function TripConfirmStep() {
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <View className="flex-row items-center px-4 py-5">
-      <Text className="text-sm text-text-secondary flex-1">{label}</Text>
+      <Text className="text-sm text-secondary-foreground flex-1">{label}</Text>
       <Text
-        className="text-sm font-medium text-text-primary capitalize"
+        className="text-sm font-medium text-secondary-foreground capitalize"
         style={{ maxWidth: "65%" }}
         numberOfLines={1}
       >

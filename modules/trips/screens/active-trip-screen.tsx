@@ -47,7 +47,9 @@ export function ActiveTripScreen() {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <ActivityIndicator size="large" color="#107359" />
-        <Text className="text-text-secondary mt-4">Cargando viaje...</Text>
+        <Text className="text-secondary-foreground mt-4">
+          Cargando viaje...
+        </Text>
       </View>
     );
   }
@@ -95,7 +97,7 @@ export function ActiveTripScreen() {
         sheetRef={endTripSheetRef}
         isOpen={isSheetOpen}
         onClose={handleSheetClose}
-        snapPoints={["35%"]}
+        snapPoints={["25%"]}
         error={endTripError}
         onDismissError={dismissEndTripError}
         confirmTitle="Terminar viaje"

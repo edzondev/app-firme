@@ -80,7 +80,7 @@ export function SOSButton({ onTrigger, disabled }: SOSButtonProps) {
           </Animated.View>
         </Pressable>
       </View>
-      <Text className="text-xs text-gray-500 mt-4">
+      <Text className="text-xs text-foreground mt-4">
         {isPressing ? "Mantén presionado..." : "Mantén presionado 3 segundos"}
       </Text>
     </View>
