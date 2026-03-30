@@ -39,8 +39,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "android.permission.FOREGROUND_SERVICE",
       "android.permission.FOREGROUND_SERVICE_LOCATION",
       "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
-      "android.permission.FOREGROUND_SERVICE_MICROPHONE"
-    ]
+      "android.permission.FOREGROUND_SERVICE_MICROPHONE",
+      "android.permission.RECEIVE_BOOT_COMPLETED",
+    ],
   },
 
   web: {
