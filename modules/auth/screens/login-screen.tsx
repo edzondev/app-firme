@@ -1,4 +1,5 @@
 import { Button } from "@/core/components/ui/button";
+import { Link } from "expo-router";
 import { Text, View } from "react-native";
 import LoginForm from "../components/login-form";
 
@@ -19,6 +20,13 @@ export default function LoginScreen() {
 
       <View className="gap-3">
         <Button title="Iniciar sesión con Google" variant="outline" />
+      </View>
+
+      <View className="flex-row justify-center mt-6">
+        <Text className="text-sm text-slate-500">¿No tienes cuenta? </Text>
+        <Link href="/(auth)/register">
+          <Text className="text-sm text-slate-900 font-semibold">Regístrate</Text>
+        </Link>
       </View>
     </View>
   );

@@ -1,6 +1,9 @@
 import QueryProvider from "@/core/components/providers/query-provider";
+import { useNotificationListeners } from "@/core/hooks/use-notifications";
+import { useRegisterPushToken } from "@/core/hooks/use-register-push-token";
 import { useAuth } from "@/modules/auth/hooks/use-auth";
 import * as Sentry from "@sentry/react-native";
+import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { PostHogProvider } from "posthog-react-native";
@@ -11,6 +14,17 @@ import {
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 import "./global.css";
+export { ErrorBoundary } from "expo-router";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 Sentry.init({
   dsn: "https://aba1725772356c16433e0fbb1c0c26df@o4508739047325696.ingest.us.sentry.io/4511061555150848",
@@ -34,14 +48,15 @@ Sentry.init({
   // spotlight: __DEV__,
 });
 
-export { ErrorBoundary } from "expo-router";
-
 export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
 function AppNavigation() {
   const { isAuthenticated, initializing } = useAuth();
+  useNotificationListeners();
+  useRegisterPushToken();
+
   if (initializing) {
     return null;
   }

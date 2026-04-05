@@ -1,10 +1,10 @@
 import MainLayout from "@/core/layouts/main-layout";
-import LoginScreen from "@/modules/auth/screens/login-screen";
+import RegisterScreen from "@/modules/auth/screens/register-screen";
 
 export default function RegisterPage() {
   return (
     <MainLayout>
-      <LoginScreen />
+      <RegisterScreen />
     </MainLayout>
   );
 }

@@ -15,6 +15,7 @@ export const loginSchema = z.object({
 
 export const registerSchema = z
   .object({
+    fullName: z.string().min(2, "Ingresa tu nombre completo"),
     email: z.email({
       error: "Correo electrónico inválido",
     }),

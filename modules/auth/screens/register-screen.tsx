@@ -1,14 +1,27 @@
-import { Text, View } from "react-native";
-import LoginForm from "../components/login-form";
+import { Link } from "expo-router";
+import { ScrollView, Text, View } from "react-native";
+import RegisterForm from "../components/register-form";
 
 export default function RegisterScreen() {
   return (
-    <View className="flex-1 justify-center px-6 pt-14 pb-8">
+    <ScrollView
+      contentContainerClassName="flex-grow justify-center px-6 pt-14 pb-8"
+      keyboardShouldPersistTaps="handled"
+    >
       <Text className="text-4xl font-bold text-slate-900 mb-8">
-        Crea una cuenta
+        Crea una{"\n"}cuenta
       </Text>
 
-      <LoginForm />
-    </View>
+      <RegisterForm />
+
+      <View className="flex-row justify-center mt-6">
+        <Text className="text-sm text-slate-500">¿Ya tienes cuenta? </Text>
+        <Link href="/(auth)/login">
+          <Text className="text-sm text-slate-900 font-semibold">
+            Inicia sesión
+          </Text>
+        </Link>
+      </View>
+    </ScrollView>
   );
 }
