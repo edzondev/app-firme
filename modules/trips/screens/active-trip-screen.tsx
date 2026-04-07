@@ -1,5 +1,6 @@
 import { ConfirmationSheet } from "@/core/components/shared/confirmation-sheet";
 import { Button } from "@/core/components/ui/button";
+import { useTripAudio } from "@/core/contexts/trip-audio-context";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MapBox, { Camera, LocationPuck } from "@rnmapbox/maps";
 import { useRouter } from "expo-router";
@@ -13,6 +14,7 @@ MapBox.setAccessToken(process.env.EXPO_PUBLIC_REACT_NATIVE_MAPBOX_TOKEN ?? "");
 
 export function ActiveTripScreen() {
   const router = useRouter();
+  const { triggerSOS: audioTriggerSOS } = useTripAudio();
   const {
     tripData,
     isEnding,
@@ -40,8 +42,9 @@ export function ActiveTripScreen() {
   );
 
   const handleSOSTrigger = useCallback(() => {
+    audioTriggerSOS();
     router.push("/trip/sos-active");
-  }, [router]);
+  }, [audioTriggerSOS, router]);
 
   if (!tripData) {
     return (

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { io, type Socket } from "socket.io-client";
 
 const WS_URL = __DEV__
-  ? "http://192.168.0.103:5000/tracking"
+  ? "http://192.168.0.101:5000/tracking"
   : "https://tu-dominio-api.com/tracking";
 
 type ConnectionStatus = "disconnected" | "connecting" | "connected" | "error";

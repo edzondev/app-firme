@@ -36,9 +36,7 @@ const dummyTrip: ActiveTrip = {
 export default function HomePage() {
   const router = useRouter();
 
-  const { data: activeTrip, isLoading } = useActiveTrip({
-    refetchOnMount: "always",
-  });
+  const { data: activeTrip, isLoading } = useActiveTrip();
   const { data: contacts, isLoading: isContactsLoading } = useGetContacts();
   const { data: trips, isLoading: isTripsLoading } = useTrips();
 

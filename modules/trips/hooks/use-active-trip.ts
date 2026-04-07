@@ -1,4 +1,5 @@
 import { queryKeys } from "@/core/constants/query-keys";
+import { useTripAudio } from "@/core/contexts/trip-audio-context";
 import useBackgroundTracking from "@/core/hooks/use-background-tracking";
 import useSocket from "@/core/hooks/use-socket";
 import { StorageKeys } from "@/core/storage/keys";
@@ -30,6 +31,7 @@ export function useActiveTrip(): UseActiveTripReturn {
   const queryClient = useQueryClient();
   const socketHook = useSocket();
   const trackingHook = useBackgroundTracking();
+  const { start: startAudio, stop: stopAudio } = useTripAudio();
   const [tripData, setTripData] = useState<ActiveTripMMKV | null>(null);
   const [isEnding, setIsEnding] = useState(false);
   const [isEndConfirmOpen, setIsEndConfirmOpen] = useState(false);
@@ -45,8 +47,11 @@ export function useActiveTrip(): UseActiveTripReturn {
         return;
       }
       setTripData(parsed);
+      if (parsed.audioEnabled) {
+        startAudio(parsed.tripId).catch(() => {});
+      }
     }
-  }, []);
+  }, [startAudio]);
 
   const { connect: socketConnect, isConnected: socketIsConnected } = socketHook;
   const { flushOfflineQueue } = trackingHook;
@@ -84,6 +89,7 @@ export function useActiveTrip(): UseActiveTripReturn {
 
       await endTripApi(tripData.tripId);
 
+      await stopAudio();
       await trackingHook.stopTracking();
       socketHook.disconnect();
       storage.remove(StorageKeys.ACTIVE_TRIP);
@@ -100,7 +106,7 @@ export function useActiveTrip(): UseActiveTripReturn {
     } finally {
       setIsEnding(false);
     }
-  }, [tripData, socketHook, trackingHook, queryClient, router]);
+  }, [tripData, socketHook, trackingHook, stopAudio, queryClient, router]);
 
   const requestEndTrip = useCallback(() => {
     setIsEndConfirmOpen(true);

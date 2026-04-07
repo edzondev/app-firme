@@ -46,6 +46,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="audio-test"
+        options={{
+          title: "Test de Audio",
+          tabBarIcon: ({ focused, color, size }) => (
+            <TabBarIcon
+              focused={focused}
+              color={color}
+              size={size}
+              Icon={Home}
+            />
+          ),
+          animation: "fade",
+        }}
+      />
+      <Tabs.Screen
         name="travels"
         options={{
           title: "Viajes",
